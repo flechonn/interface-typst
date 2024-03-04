@@ -80,64 +80,7 @@ Nous utiliseront Typst, un logiciel de composition de documents avancés pour r�
 
 Nous ne pourrons pas réaliser toutes les étapes de ce projet en un mois et demi. Nous allons donc nous contenter des parties suivantes :
 
-<div style="background-color: #ddefdd; padding: 10px; border-radius: 10px;">
-<span style="color: #008000">Définition des attentes du projet
-</div>
-<br>
-
-<div style="background-color: #ddefdd; padding: 10px; border-radius: 10px;">
-<span style="color: #008000">Prise en main de Typst
-</div>
-<br>
-
-<div style="background-color: #ddefdd; padding: 10px; border-radius: 10px;">
-<span style="color: #008000">Constitution d'une base d'exercices
-</div>
-<br>
-
-<div style="background-color: #ddefdd; padding: 10px; border-radius: 10px;">
-<span style="color: #008000">Ajout/suppression d'un exercice
-</div>
-<br>
-
-<div style="background-color: #ddefdd; padding: 10px; border-radius: 10px;">
-<span style="color: #008000">Élaboration manuelle de séquences de composition
-</div>
-<br>
-
-<div style="background-color: #ddefdd; padding: 10px; border-radius: 10px;">
-<span style="color: #008000">Élaboration automatisée de séquences de composition
-</div>
-<br>
-
-<div style="background-color: #F9E79F; padding: 10px; border-radius: 10px;">
-<span style="color: #B7950B">Traduction de LaTeX vers Typst
-</div>
-<br>
-
-<div style="background-color: #F9E79F; padding: 10px; border-radius: 10px;">
-<span style="color: #B7950B">Traduction du code figures LaTeX en Typst
-</div>
-<br>
-
-<div style="background-color: #F1948A ; padding: 10px; border-radius: 10px;">
-<span style="color: #CB4335">Modification d'un exercice de la base de données
-</div>
-<br>
-
-<div style="background-color: #F1948A ; padding: 10px; border-radius: 10px;">
-<span style="color: #CB4335">Modification d'une fiche d'exercice
-</div>
-<br>
-
-<div style="background-color: #F1948A ; padding: 10px; border-radius: 10px;">
-<span style="color: #CB4335">Format de sortie
-</div>
-<br>
-
-<div style="background-color: #F1948A ; padding: 10px; border-radius: 10px;">
-<span style="color: #CB4335">Ajout d'une interface graphique 
-</div>
+![Étapes](./img/Etapes.png "Prévision des étapes réalisées")
 
 ### Diagramme de Gantt prévisionnel
 
