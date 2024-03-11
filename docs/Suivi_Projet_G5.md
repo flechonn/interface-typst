@@ -29,5 +29,11 @@ Finalisation du diagramme de Gantt
 * Implémentation de la classe Exercise
 * Réflexion sur la base de données
 
+## Semaine 6 (11/03)
+
+* Définition de l'automate gérant les interactions
+* Redéfinition de l'architecture, suite à une incompréhension au sein du groupe
+* Essai d'intégration de l'API (inutile après discussion)
+
 
 

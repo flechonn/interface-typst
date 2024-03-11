@@ -1,29 +1,20 @@
-# Interactions utilisateurs faisables en ligne de commande
+# User Interactions 
+# This file listens to user requests and offers three choices: add, delete, and create. It cannot change modes.
 
-import exercise as exo
+import bdmanager 
 
-# Ajout d'un exercice sous format typst à la base de données
+# TODO : Definition of the automaton managing the interactions
+
 def add(ex_file): 
-    # TODO
+    bdmanager.add(ex_file)
 
-    # Création de l'objet exercice à partir du fichier typst
-    e = exo.Exercice()
-
-# Suppression d'un exercice existant dans la base de données
+# Deleting an existing exercise in the database
+# argument : path to file
 def delete(id): 
+    bdmanager.delete(id)
+
+# Creating a new exercise sheet from a list of ids given in argument
+# argument : exercise ids of the new sheet
+def create(ids):
     # TODO
     return
-
-# Modification d'un exercice existant dans la base de données
-def edit(id):
-    # TODO
-    return
-
-# # Assemblage de deux fichiers exercice ou plus (liste)
-# def fusion(ids):
-
-#     if ids == None or ids == [] or len(ids) < 2:
-#         print("Veuillez donner une liste d'au moins deux exercices")
-#         exit(-1)
-    
-

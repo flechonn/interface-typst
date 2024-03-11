@@ -15,56 +15,89 @@ class Exercice:
         self.language = language
         self.material = material
 
-        # Liste de  tous les champs visibles sur la fiche créée
+        # List of all visible fields on the created sheet
         self.visible = [self.title, self.duration, self.difficulty, self.figures, self.points, self.bonus]
 
-        # Si le champ visible est vide, on l'enlève de la liste
+        # If the field visible is empty, we remove 
         self.visible = [x for x in self.visible if x]
-
-# LaTeX (formatted) to Typst (formatted)
-    # def latex_to_typst(latex_file):
-    #     file = open(latex_file, 'r')
-        
-    #     for line in file.read():
-
         
     
     def get_id(self):
         return self.id
 
-    def display_exercice(self):
-        print("Exercice" +{self.number}+":"+ {self.exercise})
-        print("Solution:" +self.solution)
-        print("Niveau d'indice:"+ {self.difficulty})
-
+  
+    # Each exercise is represented by a file.
+    # Each line contains one information of the exercise separated by a specific delimiter
+    # The information is not stored in a specific order, if there is no information the data is set to null
     @classmethod
     def load_exercises_from_file(cls, filename):
+        #TODO
         exercises_list = []
         with open(filename, 'r') as file:
             lines = file.readlines()
+    
+    # Getters and setters (à voir si on les met ou pas)
 
-        number, exercise, solution, difficulty = None, None, None, None
 
-        for line in lines:
-            line = line.strip()
-            if line.startswith('='):
-                # A new exercise block is starting
-                if number is not None:
-                    # If this is not the first block, add the previous exercise to the list
-                    exercises_list.append(cls(number, exercise, solution, difficulty))
+# Add a field (string) to a list of visible fields so that it is displayed
+# if the value is not in the list an error is returned
 
-                # Reset variables for the new exercise block
-                number, exercise, solution, difficulty = None, None, None, None
-            elif line.startswith('Exercice'):
-                number = int(line.split(':')[0].split()[1])
-                exercise = line.split(':')[1].strip()
-            elif line.startswith('Solution'):
-                solution = line.split(':')[1].strip()
-            elif line.startswith('Niveau d\'indice'):
-                difficulty = line.split(':')[1].strip()
+def addVisible(self, field):
+    match field:
+        case "title":
+            self.visible.append(self.title)
+        case "duration":
+            self.visible.append(self.duration)
+        case "difficulty":
+            self.visible.append(self.difficulty)
+        case "solution": 
+            self.visible.append(self.duration)
+        case "figures": 
+            self.visible.append(self.figures)
+        case "points":
+            self.visible.append(self.points)
+        case "bonus": 
+            self.visible.append(self.bonus)
+        case "author":
+            self.visible.append(self.author)
+        case "references":
+            self.visible.append(self.references)
+        case "language":
+            self.visible.append(self.languages)
+        case "material":
+            self.visible.append(self.material)
+        
+        case _: 
+            print("Not existing field")
+    
 
-        # Add the last exercise to the list
-        if number is not None:
-            exercises_list.append(cls(number, exercise, solution, difficulty))
 
-        return exercises_list
+# remove a field (string) to a list of visible fields so that it is displayed
+# if the value is not in the list an error is returned
+
+def removeVisible(self, field):
+    match field:
+        case "title":
+            self.visible = set(self.visible.remove(self.title))
+        case "duration":
+            self.visible.remove(self.duration)
+        case "difficulty":
+            self.visible.remove(self.difficulty)
+        case "solution": 
+            self.visible.remove(self.duration)
+        case "figures": 
+            self.visible.remove(self.figures)
+        case "points":
+            self.visible.remove(self.points)
+        case "bonus": 
+            self.visible.remove(self.bonus)
+        case "author":
+            self.visible.remove(self.author)
+        case "references":
+            self.visible.remove(self.references)
+        case "language":
+            self.visible.remove(self.language)
+        case "material":
+            self.visible.remove(self.material)
+        case _: 
+            print("Not existing field")
