@@ -7,12 +7,9 @@ def main():
         sys.exit(1)
     
     output = open("output_file.typ", "w")
-
-        
+  
     args= sys.argv
-    
-    
-        
+
     print("pour avoir la sortie en pdf: typst compile output_file.typ")
 
 

@@ -1,4 +1,4 @@
-# file managing the database deletion and addition
+# File managing the database
 import exercise as exo
 
 # Adding an exercise in typst format to the database
