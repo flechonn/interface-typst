@@ -31,9 +31,14 @@ Finalisation du diagramme de Gantt
 
 ## Semaine 6 (11/03)
 
+### Lundi 11/03
 * Définition de l'automate gérant les interactions
 * Redéfinition de l'architecture, suite à une incompréhension au sein du groupe
 * Essai d'intégration de l'API (inutile après discussion)
 
+### Mardi 12/03 
+* Début d'implémentation de l'automate
+* Ecriture d'un format de base pour les exercices en LaTeX (format.tex)
+* Travail sur le powerpoint et la présentation de vendredi (soutenance de mi-projet)
 
 
