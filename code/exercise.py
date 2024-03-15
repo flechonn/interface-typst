@@ -1,9 +1,8 @@
 import sys
 
 class Exercise:
-    def __init__(self, id, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None):
-        self.metadata = {"id" : id,
-                        "title" : title,
+    def __init__(self, content, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
+        self.metadata = {"title" : title,
                         "duration" : duration,
                         "difficulty" : difficulty,
                         "solution" : solution, # booléen indiquant s'il y a une solution à la fin du fichier .typ
@@ -24,6 +23,8 @@ class Exercise:
         self.visible.pop("language")
         self.visible.pop("material")
 
+        self.content = content
+        self.solution = solution_content
     
     def get_id(self):
         return self.id
