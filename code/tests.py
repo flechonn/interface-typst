@@ -1,10 +1,14 @@
-def tests(test_files):
-    # TODO 
-    #test_files = 
+import exercise as e
+import re
+def tests():
+    path = "../BD/format.tex"
 
-    #for file in test_files:
+    exo1 = e.loadExerciseLatex(path)
+    print(exo1.metadata)
 
-    return 
+tests()
 
-        
-    
+# line = "\setMeta{title}{Mon Title}"
+# if "\setMeta" in line: 
+#     extractedwords = re.search(r"\\setMeta\{(\w+)\}\{(.+?)\}", line)
+#     print(extractedwords.group(1))
