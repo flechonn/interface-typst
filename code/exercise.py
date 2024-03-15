@@ -73,3 +73,7 @@ def loadExerciseLatex(path):
             exercise.metadata[key] = value
     
     return exercise
+
+def loadExerciseTypst(path):
+    # TODO
+    return
