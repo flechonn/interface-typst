@@ -22,18 +22,14 @@ Nous utiliseront Typst, un logiciel de composition de documents avancés pour r�
 *Voir plus de détails : [Base d'exercices](./Base_exercices.md).*
 <br>
 
-* **Ajout/suppression d'un exercice :** Ajout/Suppression d'un exercice à la base de données via lignes de commandes.
-*Voir plus de détails : [Documentation ligne de commandes](./Doc_Commandes.md).*
-<br>
-
 * **Élaboration manuelle de séquences de composition :** Assemblage de 2 exercices .typ pour en faire un seul fichier.
 ![Exemple](./img/Exemple.png "Exemple utilisation simple")
 
-* **Élaboration automatisée de séquences de composition :** Assemblage de plusieurs exercices .typ pour en faire une seule fiche.\
-*Voir plus de détails : [Documentation ligne de commandes](./Doc_Commandes.md).*
+* **Conversion d'un exercice LaTeX en objet Exercise :** Parsing d'un exercice LaTeX pour en faire un objet Exercise. On récupère les métadonnées en début de fichier.
 <br>
 
-* **Traduction de LaTeX vers Typst :** Dans un premier temps, sans les figures construites via LaTeX. On ne prend, dans cette partie, qu'en compte le texte, les images (PNG, JPEG) et les formules mathématiques.
+* **Ajout/suppression d'un exercice :** Ajout/Suppression d'un exercice à la base de données via lignes de commandes.
+*Voir plus de détails : [Documentation ligne de commandes](./Doc_Commandes.md).*
 <br>
 
 * **Traduction du code figures LaTeX en Typst :** Parseur permettant de composer les figures LaTex (utilisant la librairie Tikz) en Typst. Exemple d'un code figure à traduire :
@@ -76,7 +72,7 @@ Nous utiliseront Typst, un logiciel de composition de documents avancés pour r�
 * **Ajout d'une interface graphique :** Passage des instructions en ligne de commande sur un terminal, à une interface utilisateur (IHM). Par exemple, visualisation du fichier final, de la base de donnée, glissage de documents pour composition...
 <br>
 
-### Projection des étapes réalisées en 2023
+### Projection des étapes réalisées en 2024
 
 Nous ne pourrons pas réaliser toutes les étapes de ce projet en un mois et demi. Nous allons donc nous contenter des parties suivantes :
 
