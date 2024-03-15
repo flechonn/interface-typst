@@ -13,18 +13,20 @@ Nous sommes initialement partis de la feuille d'examen suivante : [feuille exame
 Les métadonnées seront données selon le format suivant dans le fichier exercice .Tex :
 
 ```tex
-\begin{meta}
-\meta ID (Obligatoire) : % Identifiant de l'exercice % ;
-\meta Titre : % Titre de l'exercice % ;
-\meta Auteur : % Auteur de l'exercice % ;
-\meta Durée : % Durée de l'exerice % ;
-\meta Difficulté : % Difficulté de l'exercice % ;
-\meta Solution : % Oui ou non, indique si la solution est affichée après % ;
-\meta Figures : % Lien vers les figures de l'exercice, séparés par ";" % ;
-\meta Nombre de points : % Notation de l'exercice % ;
-\meta Bonus : % Exercice bonus ou non % ;
-\meta Langue : % Langue de l'exercice % ;
-\end{meta}
+% Commande pour définir les métadonnées
+\newcommand{\setMeta}[2]{}
+
+\setMeta{title}{Mon Title}
+\setMeta{duration}{1h30}
+\setMeta{difficulty}{easy}
+\setMeta{solution}{0}
+\setMeta{figures}{none}
+\setMeta{points}{5pts}
+\setMeta{bonus}{0}
+\setMeta{author}{Moi}
+\setMeta{references}{none}
+\setMeta{language}{français}
+\setMeta{material}{none}
 ```
 
 ##### Extensions possibles
@@ -38,14 +40,17 @@ Dans le cas d'une utilisation plus générale, les extensions suivantes peuvent 
 Le contenu de l'exercice sera donné selon le format suivant dans le fichier exercice .tex :
 
 ```tex
-\begin{contenu}
-% Contenu de l'exercices, avec diverses balises, images... %
-\end{contenu}
-\begin{solution}
-% Si présence d'une solution associée à l'exercice %
-\end{solution}
+\begin{document}
+
+\section{Exercice}
+% Partie dédiée à l'exercice
+
+\section{Solution}
+% Partie dédiée à la solution si celle-ci existe
+
+\end{document}
 ```
 
 ### Choix de la base de données
 
-Nous avons choisit de prendre des fichiers d'exercices typ formatés pour constituer notre base de données. Cela nous permettra de retrouver plus facilement les métadonnées et le contenu de l'exercice.
+Nous avons choisit de prendre des fichiers d'exercices LaTeX formatés pour constituer notre base de données. Cela nous permettra de retrouver plus facilement les métadonnées et le contenu de l'exercice.
