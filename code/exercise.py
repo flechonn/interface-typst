@@ -60,9 +60,9 @@ def loadExerciseLatex(path):
 
     # Metadatas do not have a precise order in the formatted LaTeX file
     for line in lines:
-        if "\setMeta{" in line: 
-            print(line)
-            extractedwords = re.search(r"\\setMeta\{(\w+)\}\{(.+?)\}", line)
+
+        extractedwords = re.search(r'\\setMeta\{(\w+)\}\{([^}]*)\}', line)
+        if (extractedwords != None):
             key = extractedwords.group(1)
             key = key.replace("\my", "")
             value = extractedwords.group(2)
@@ -75,5 +75,23 @@ def loadExerciseLatex(path):
     return exercise
 
 def loadExerciseTypst(path):
-    # TODO
-    return
+    f = open(path, 'r')
+    lines = f.readlines()
+    
+    exercise = Exercise(None)
+
+    # Metadatas do not have a precise order in the formatted LaTeX file
+    for line in lines:
+
+        extractedwords = re.search(r'let\s+(\w+)\s+=\s+label\("([^"]*)"\)', line)
+        if (extractedwords != None):
+            key = extractedwords.group(1)
+            key = key.replace("\my", "")
+            value = extractedwords.group(2)
+
+            if (value == ""):
+                value = None
+
+            exercise.metadata[key] = value
+    
+    return exercise
