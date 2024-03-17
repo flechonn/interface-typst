@@ -25,26 +25,7 @@ def editHeading(self):
     return 
 
 
-def idToExercise(path): # review this function, not coherent arguments and name function
 
-    f = open(path, 'r')
-    lines = f.readlines()
-
-    exercise = e.Exercise(None)
-
-    # Metadatas do not have a precise order in the formatted LaTeX file
-    for line in lines:
-        extractedwords = re.search(r'\\newcommand\{([^}]*)\}\{([^}]*)\}', line)
-        
-        key = extractedwords.group(1).replace("\my", "")
-        value = extractedwords.group(2)
-
-        if (value == ""):
-            value = None
-
-        exercise.metadata[key] = value
-    
-    return exercise
 
 
 # Converting Sheet object to .typ file

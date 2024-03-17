@@ -10,6 +10,8 @@ Nous sommes initialement partis de la feuille d'examen suivante : [feuille exame
 
 #### Métadonnées
 
+##### Fichier exercice LaTeX
+
 Les métadonnées seront données selon le format suivant dans le fichier exercice .Tex :
 
 ```tex
@@ -29,13 +31,27 @@ Les métadonnées seront données selon le format suivant dans le fichier exerci
 \setMeta{material}{none}
 ```
 
-##### Extensions possibles
+##### Fichier exercice Typst
 
-Dans le cas d'une utilisation plus générale, les extensions suivantes peuvent être ajoutées :
-
-* Matière
+```.typ
+#show terms: it => {
+    let title = label("Mon Title")
+    let duration = label("1h30")
+    let difficulty = label("easy")
+    let solution = label("0")
+    let figures = label("none")
+    let points = label("5pts")
+    let bonus = label("0")
+    let author = label("Moi")
+    let references = label("none")
+    let language = label("français")
+    let material = label("none")
+}
+```
 
 #### Contenu de l'exercice
+
+##### Fichier exercice LaTeX
 
 Le contenu de l'exercice sera donné selon le format suivant dans le fichier exercice .tex :
 
@@ -51,6 +67,12 @@ Le contenu de l'exercice sera donné selon le format suivant dans le fichier exe
 \end{document}
 ```
 
+##### Fichier exercice Typst
+
+```.typ
+A faire
+```
+
 ### Choix de la base de données
 
-Nous avons choisit de prendre des fichiers d'exercices LaTeX formatés pour constituer notre base de données. Cela nous permettra de retrouver plus facilement les métadonnées et le contenu de l'exercice.
+Nous avons choisit de prendre des fichiers d'exercices LaTeX et Typst formatés pour constituer notre base de données. Cela nous permettra de retrouver plus facilement les métadonnées et le contenu de l'exercice.

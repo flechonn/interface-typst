@@ -1,4 +1,5 @@
 import sys
+import re 
 
 class Exercise:
     def __init__(self, content, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
@@ -29,6 +30,8 @@ class Exercise:
     def get_id(self):
         return self.id
 
+    def printExercise(self):
+        print(self.metadata)
   
     # Each exercise is represented by a file.
     # Each line contains one information of the exercise separated by a specific delimiter
@@ -47,3 +50,48 @@ class Exercise:
     # Remove the field (string) to the dictionary of visible fields
     def removeVisible(self, field):
         self.visible.pop(field)
+
+def loadExerciseLatex(path):
+
+    f = open(path, 'r')
+    lines = f.readlines()
+    
+    exercise = Exercise(None)
+
+    # Metadatas do not have a precise order in the formatted LaTeX file
+    for line in lines:
+
+        extractedwords = re.search(r'\\setMeta\{(\w+)\}\{([^}]*)\}', line)
+        if (extractedwords != None):
+            key = extractedwords.group(1)
+            key = key.replace("\my", "")
+            value = extractedwords.group(2)
+
+            if (value == ""):
+                value = None
+
+            exercise.metadata[key] = value
+    
+    return exercise
+
+def loadExerciseTypst(path):
+    f = open(path, 'r')
+    lines = f.readlines()
+    
+    exercise = Exercise(None)
+
+    # Metadatas do not have a precise order in the formatted LaTeX file
+    for line in lines:
+
+        extractedwords = re.search(r'let\s+(\w+)\s+=\s+label\("([^"]*)"\)', line)
+        if (extractedwords != None):
+            key = extractedwords.group(1)
+            key = key.replace("\my", "")
+            value = extractedwords.group(2)
+
+            if (value == ""):
+                value = None
+
+            exercise.metadata[key] = value
+    
+    return exercise
