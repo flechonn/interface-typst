@@ -39,6 +39,7 @@ TRANSITIONS = {
     Automaton.AUTHOR: {"done": Automaton.OPTIONS},
     Automaton.DATE: {"done": Automaton.OPTIONS},
     Automaton.DELEX: {"done": Automaton.OPTIONS},
+    Automaton.ADDEX: {"done": Automaton.OPTIONS},
     Automaton.QUIT:{"done":Automaton.IDLE},
     Automaton.OUT:{}
 }
@@ -64,21 +65,78 @@ def transition(state, event):
     return next_state
 
 
+functions = {
+    Automaton.IDLE: lambda: None,  # Aucune action à effectuer pour l'état IDLE
+    Automaton.ADD: "add",
+    Automaton.DEL: "delete",
+    Automaton.OPTIONS: "options",
+    Automaton.OK: "ok",
+    Automaton.TITLE: "title",
+    Automaton.AUTHOR: "author",
+    Automaton.DATE: "date",
+    Automaton.ADDEX: "addex",
+    Automaton.DELEX: "delex",
+    Automaton.QUIT: "quit",
+    Automaton.OUT: "out"
+}
+
+def call_function(state):
+    function_name = functions.get(state)
+    if function_name:
+        function = globals().get(function_name)
+        if function:
+            function()
+        else:
+            print(f"Function '{function_name}' not found.")
+    else:
+        print("No function associated with the current state.")
+
+
+def create(ids):
+    # TODO
+    return
 
 # Adding a new exercise in the database
-def add(ex_file): 
+def add():
+    ex_file = input("Exercise file name to add : ")
     bdmanager.add(ex_file)
 
 # Deleting an existing exercise in the database
 # argument : path to file
-def delete(id): 
+def delete():
+    name = input("Exercise file name to delete : ")
     bdmanager.delete(id)
 
 # Creating a new exercise sheet from a list of ids given in argument
 # argument : exercise ids of the new sheet
-def create(ids):
-    # TODO
-    return
+def options():
+    print("Options menu")
+
+def ok():
+    print("OK")
+
+def title():
+    print("Title menu")
+
+def author():
+    print("Author menu")
+
+def date():
+    print("Date menu")
+
+def addex():
+    print("Adding exercise menu")
+
+def delex():
+    print("Deleting exercise menu")
+
+def quit():
+    print("Quitting")
+
+def out():
+    print("Exiting")
+
+
 
 def main():
     automaton_state = Automaton.IDLE
@@ -89,4 +147,5 @@ def main():
         action = input("Enter an action: ").strip().lower()
         automaton_state = transition(automaton_state, action)
         print("Current state:", automaton_state)
+        call_function(automaton_state)
 
