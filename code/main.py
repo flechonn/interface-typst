@@ -1,5 +1,5 @@
 import sys
-from exercise import Exercice
+import ui
 
 def main():
     if len(sys.argv) < 2:
@@ -15,3 +15,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    ui.main()
