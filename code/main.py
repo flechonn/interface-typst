@@ -2,17 +2,17 @@ import sys
 import ui
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 main.py fichier1 fichier2 ...")
-        sys.exit(1)
+    # Retrieving command line arguments 
+    args = sys.argv
+
+    if len(sys.argv) != 0: # Lauching manual mode
+        # TODO
+        print("Manual mode")
+        return
+    else: # Lauching interactive mode
+        print("Interactive mode")
+        ui.main()
     
-    output = open("output_file.typ", "w")
-  
-    args= sys.argv
-
-    print("pour avoir la sortie en pdf: typst compile output_file.typ")
-
 
 if __name__ == "__main__":
     main()
-    ui.main()
