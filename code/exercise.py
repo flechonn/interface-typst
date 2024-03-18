@@ -32,6 +32,7 @@ class Exercise:
 
     def printExercise(self):
         print(self.metadata)
+        print(self.content)
   
     # Each exercise is represented by a file.
     # Each line contains one information of the exercise separated by a specific delimiter
@@ -80,7 +81,7 @@ def loadExerciseTypst(path):
     
     exercise = Exercise(None)
 
-    # Metadatas do not have a precise order in the formatted LaTeX file
+    # Metadatas do not have a precise order in the formatted Typst file
     for line in lines:
 
         extractedwords = re.search(r'let\s+(\w+)\s+=\s+label\("([^"]*)"\)', line)

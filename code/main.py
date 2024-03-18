@@ -5,7 +5,7 @@ def main():
     # Retrieving command line arguments 
     args = sys.argv
 
-    if len(sys.argv) != 0: # Lauching manual mode
+    if len(sys.argv) >= 2: # Lauching manual mode
         # TODO
         print("Manual mode")
         return
