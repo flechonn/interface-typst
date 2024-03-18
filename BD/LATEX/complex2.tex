@@ -1,0 +1,39 @@
+\documentclass{article}
+
+% Commande pour définir les métadonnées
+\newcommand{\setMeta}[2]{}
+
+\setMeta{title}{Complexité algorithmique}
+\setMeta{difficulty}{moyen}
+\setMeta{solution}{0} 
+\setMeta{bonus}{0}
+\setMeta{figures}{hagrid/harrypotter}
+\setMeta{author}{Moi}
+\setMeta{language}{français}
+
+\begin{document}
+
+\section{Exercice}
+
+\subsection*{Question}
+Considérez l'algorithme suivant qui recherche un élément donné dans un tableau trié par recherche binaire :
+\begin{verbatim}
+fonction recherche_binaire(tab, x):
+    début = 0
+    fin = longueur(tab) - 1
+    tant que début <= fin faire
+        milieu = (début + fin) / 2
+        si tab[milieu] == x alors
+            retourner vrai
+        sinon si tab[milieu] < x alors
+            début = milieu + 1
+        sinon
+            fin = milieu - 1
+        fin si
+    fin tant que
+    retourner faux
+\end{verbatim}
+
+Quelle est la complexité temporelle de cet algorithme ? Justifiez votre réponse.
+
+\end{document}
