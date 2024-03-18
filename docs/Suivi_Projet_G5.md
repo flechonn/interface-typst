@@ -45,3 +45,13 @@ Finalisation du diagramme de Gantt
 * Prise en compte des remarques durant la soutenance de mi-projet (ajouter un mode ligne de commandes et ajout d'un format d'entrée typst dans la base de données)
 * Création d'un nouveau format d'entrée typst
 * Tests pour la méthode chargeant un exercice de la base de données en un objet exercice
+
+## Semaine 7 (18/03)
+
+### Lundi 18/03
+
+* Elaboration de fichiers exercices Typst et Latex pour la base de données (afin de tester)
+* Implémentation de l'automate et de l'ui.py (reste à clean le fichier et tester)
+* Implémentation du bdmanager.py
+* Traduction du README en anglais
+* Ajout du mode en ligne de commandes, en plus du mode interactif
