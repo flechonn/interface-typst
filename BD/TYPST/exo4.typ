@@ -16,7 +16,7 @@
 Considérez un signal sinusoïdal x(t)=$A⋅sin(2π*f*t+ϕ)$, où AA est l'amplitude, ff est la fréquence en Hz et ϕϕ est la phase en radians. Écrivez une fonction en Python pour calculer la valeur efficace (RMS) de ce signal sur une période donnée. Testez votre fonction avec $A=3$, $f=50$Hz et $ϕ=π*4$ sur une période de T=$1/f$.
 
 
-= Soluce
+= Solution
 
 
 

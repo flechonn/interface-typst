@@ -16,7 +16,7 @@
 
 Write an algorithm to find the maximum element in an array of integers.
 
-= Soluce
+= Solution
 
 #show terms: soluce => {
   ```py
