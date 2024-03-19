@@ -1,5 +1,4 @@
 # File managing the database
-import exercise as exo
 import shutil
 import os
 
