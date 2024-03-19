@@ -3,13 +3,13 @@
     let duration = label("30min")
     let difficulty = label("hard")
     let solution = label("1")
-    let figures = label("none")
+    let figures = label("")
     let points = label("20pts")
     let bonus = label("0")
-    let author = label("none")
-    let references = label("none")
+    let author = label("")
+    let references = label("")
     let language = label("english")
-    let material = label("none")
+    let material = label("")
 }
 
 = Exercise
@@ -18,7 +18,7 @@ Write an algorithm to find the maximum element in an array of integers.
 
 = Solution
 
-#show terms: soluce => {
+#show terms: solution => {
   ```py
   def find_max_element(arr):
     # Initialize max_element with the first element of the array
@@ -33,9 +33,9 @@ Write an algorithm to find the maximum element in an array of integers.
     # Return the maximum element
     return max_element
 
-# Example usage:
-array = [3, 5, 2, 9, 10, 7, 1]
-print("Maximum element in the array:", find_max_element(array))
+  # Example usage:
+  array = [3, 5, 2, 9, 10, 7, 1]
+  print("Maximum element in the array:", find_max_element(array))
 
   ```
 }

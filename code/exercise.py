@@ -2,7 +2,7 @@ import sys
 import re 
 
 class Exercise:
-    def __init__(self, content, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
+    def __init__(self, content, name=None, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
         self.metadata = {"title" : title,
                         "duration" : duration,
                         "difficulty" : difficulty,
@@ -13,7 +13,8 @@ class Exercise:
                         "author" : author,
                         "references" : references,
                         "language" : language,
-                        "material" : material
+                        "material" : material,
+                        "name" : name
         }
 
         # Dictionary of all visible fields on the final output
@@ -65,24 +66,41 @@ def loadExerciseLatex(path):
     
     return exercise
 
-def loadExerciseTypst(path):
-    f = open(path, 'r')
-    lines = f.readlines()
-    
-    exercise = Exercise(None)
+def loadExercise(path):
+    ext = ext = path.split(".")[-1]
 
-    # Metadatas do not have a precise order in the formatted Typst file
-    for line in lines:
+    if(ext == "typ"):
+        loadExerciseTypst(path)
+    else:
+        loadExerciseLatex(path)
 
-        extractedwords = re.search(r'let\s+(\w+)\s+=\s+label\("([^"]*)"\)', line)
-        if (extractedwords != None):
-            key = extractedwords.group(1)
-            key = key.replace("\my", "")
-            value = extractedwords.group(2)
 
-            if (value == ""):
-                value = None
+def loadExerciseTypst(file_path):
+    try:
+        with open(file_path, "r") as f:
+            content = f.read()
+    except FileNotFoundError:
+        print(f"Le fichier '{file_path}' est introuvable.")
+        exit()
 
-            exercise.metadata[key] = value
-    
-    return exercise
+    meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
+    exercise_match = re.search(r'= Exercise(.*?)= Solution', content, re.DOTALL)
+    solution_match = re.search(r'#show terms: solution => {(.*?)}', content, re.DOTALL)
+
+    if meta_match:
+        metadata = dict(re.findall(r'let\s+(\w+)\s*=\s*label\("(.*?)"\)', meta_match.group(1)))
+
+    if exercise_match:
+        content = exercise_match.group(1).strip()
+
+    if solution_match:
+        solution = solution_match.group(1).strip()
+
+    # Object exercise creation
+
+    ex = Exercise(None)
+    ex.metadata = metadata
+    ex.content = content
+    ex.solution = solution
+
+    return ex
