@@ -1,30 +1,37 @@
 # This file contains the functions that operate on Exercise objects. 
 # It is also responsible for managing the typ output.
 
-import exercise as e
+from exercise import *
 
 class Sheet:
-    def __init__(self, title, author=None, date=None, modality=None, duration=None, ex=None, output=None):
+    def __init__(self, title, author=None, date=None, modality=None, duration=None, ex=[], output=None):
         self.title = title
         self.heading = {"author" : author,
                         "date" : date,
                         "modality" : modality,
                         "duration" : duration
         }
-        self.ex = ex # List of exercise paths existing in the sheet
+        self.ex: list[Exercise] = ex # List of exercise paths existing in the sheet
         self.output = output # Name of the output file
     
+    def display_exercises(self):
+        print("List of exercises:")
+        for i, exercise in enumerate(self.ex, 1):
+            print(f"{i}. {exercise}")
+        
     # Adding an exercise to the actual exercise sheet
     def add(self, path):
-        exo=e.loadExercise(path)
-        
-        self.ex.list.append(exo)
+        exo:Exercise
+        exo=loadExercise(path)
+        exo.printExercise()
+        print(self.ex)
+        self.ex.append(exo)
 
     # Deleting an exercise existing in the actual exercise sheet
     def delete(self, name):
         for exo in self.ex:
             if exo.name == name:
-                self.ex.list.remove(exo)
+                self.ex.remove(exo)
                 return    
         print("Error name unknow")
         

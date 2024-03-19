@@ -2,8 +2,9 @@
 # This file listens to user requests and offers three choices: add, delete, and create. It cannot change modes.
 from enum import Enum
 
-import sheet as s
-import bdmanager 
+from sheet import *
+import bdmanager
+from exercise import *
 
 # Definition of the automaton managing the interactions
 
@@ -32,9 +33,9 @@ class State(Enum):
 class Automaton:
 
     def __init__(self):
-        self.currentSheet = None
+        self.currentSheet:Sheet = None
         self.currentState = State.IDLE
-        self.currentExo=None
+        self.currentExo:Exercise=None
         self.TRANSITIONS = {
             State.IDLE: {"add": State.ADD, 
                          "delete": State.DEL, 
@@ -123,7 +124,7 @@ class Automaton:
     # Creating a new exercise sheet
     def create(self):
         title = input("Title of the new sheet : ")
-        self.currentSheet = s.Sheet(title)
+        self.currentSheet = Sheet(title)
 
     # Adding a new exercise in the database
     def add(self):
@@ -164,12 +165,12 @@ class Automaton:
 
     def addex(self):
         print("Adding exercise menu")
-        ex = input()
+        ex = input("try with ../BD/TYPST/exo1.typ :")
         self.currentSheet.add(ex)
 
     def delex(self):
         print("Deleting exercise menu")
-        ex = input()
+        ex = input("try with ../BD/TYPST/exo1.typ :")
         self.currentSheet.add(ex)
 
     def quit(self):
@@ -180,13 +181,37 @@ class Automaton:
         return
 
     def editex(self):
-        add_del=input("name exo")
-        return
+        self.currentSheet.display_exercises()
+        if(self.currentSheet.ex==None):
+            print("There are no exercises to edit.")
+            return
+        
+        name=input("name of the exercise you want to edit :")
+        for exo in self.currentSheet.ex:
+            if exo.name == name:
+                self.currentExo=exo
+                return
+            
+        self.currentExo=None
+        print("Exercices not fond")
+        return 
     
     def addvisibleex(self):
+        if(self.currentExo==None):
+            print("Exercise Name invalid please enter a valid name")
+            self.currentState=State.EDITEX
+            return 
         field = input("Field name to add : ")
+        self.currentExo.addVisible(field)
+        return
     
     def delvisibleex(self):
+        if(self.currentExo==None):
+            print("Exercise Name invalid please enter a valid name")
+            self.currentState=State.EDITEX
+            return 
+        field = input("Field name to del : ")
+        self.currentExo.removeVisible(field)
         return
 
     def main(self):

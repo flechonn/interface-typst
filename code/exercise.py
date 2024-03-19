@@ -31,18 +31,40 @@ class Exercise:
     def get_id(self):
         return self.id
 
+    def printFieldNotVisible(self):
+        not_visible_fields = set(self.metadata.keys()) - set(self.visible.keys())
+        for field in not_visible_fields:
+            print(field)
+    
+    def printFieldVisible(self):
+        for field in self.visible.keys():
+            print(field)
+    
     def printExercise(self):
         print(self.metadata)
         print(self.content)
     
     # Add the field (string) to the dictionary of visible fields
     def addVisible(self, field):
-        self.visible[field] = self.metadata[field]
+        if field in self.metadata.key():
+            self.visible[field] = self.metadata[field]
+            print("field : ",field," is now visible")
+        else:
+            print("\033[91mError: Invalid field.\033[0m Please enter one of the field:")
+            self.printFieldNotVisible()
+            
+
         
     # Remove the field (string) to the dictionary of visible fields
     def removeVisible(self, field):
-        self.visible.pop(field)
+        if field in self.visible.keys():
+            self.visible.pop(field)
+            print("Field:", field, "has been removed from the visible dictionary.")
+        else:
+            print("\033[91mError: Invalid field or field already invisible.\033[0m Please enter one of the visible fields:")
+            self.printFieldVisible()
 
+        
 def loadExerciseLatex(path):
 
     f = open(path, 'r')
@@ -67,15 +89,15 @@ def loadExerciseLatex(path):
     return exercise
 
 def loadExercise(path):
-    ext = ext = path.split(".")[-1]
-
+    ext = path.split(".")[-1]
     if(ext == "typ"):
-        loadExerciseTypst(path)
+        return loadExerciseTypst(path)
     else:
-        loadExerciseLatex(path)
+        return loadExerciseLatex(path)
 
 
 def loadExerciseTypst(path):
+    print("path",path)
     f = open(path, 'r')
     lines = f.readlines()
     
