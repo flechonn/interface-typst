@@ -33,16 +33,6 @@ class Exercise:
     def printExercise(self):
         print(self.metadata)
         print(self.content)
-  
-    # Each exercise is represented by a file.
-    # Each line contains one information of the exercise separated by a specific delimiter
-    # The information is not stored in a specific order, if there is no information the data is set to null
-    @classmethod
-    def load_exercises_from_file(cls, filename):
-        #TODO
-        exercises_list = []
-        with open(filename, 'r') as file:
-            lines = file.readlines()
     
     # Add the field (string) to the dictionary of visible fields
     def addVisible(self, field):
