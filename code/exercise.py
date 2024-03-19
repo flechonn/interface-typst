@@ -32,16 +32,7 @@ class Exercise:
 
     def printExercise(self):
         print(self.metadata)
-  
-    # Each exercise is represented by a file.
-    # Each line contains one information of the exercise separated by a specific delimiter
-    # The information is not stored in a specific order, if there is no information the data is set to null
-    @classmethod
-    def load_exercises_from_file(cls, filename):
-        #TODO
-        exercises_list = []
-        with open(filename, 'r') as file:
-            lines = file.readlines()
+        print(self.content)
     
     # Add the field (string) to the dictionary of visible fields
     def addVisible(self, field):
@@ -80,7 +71,7 @@ def loadExerciseTypst(path):
     
     exercise = Exercise(None)
 
-    # Metadatas do not have a precise order in the formatted LaTeX file
+    # Metadatas do not have a precise order in the formatted Typst file
     for line in lines:
 
         extractedwords = re.search(r'let\s+(\w+)\s+=\s+label\("([^"]*)"\)', line)
