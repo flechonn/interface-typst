@@ -12,6 +12,7 @@ class State(Enum):
     ADD = 1
     DEL = 2
     CREATE = 3
+
     OPTIONS = 4
     OK = 5
     TITLE = 6
@@ -20,7 +21,12 @@ class State(Enum):
     ADDEX = 9
     DELEX = 10
     QUIT = 11
-    OUT = 12
+    
+    EDITEX=12
+    ADDVISIBLEEX=13
+    DELVISIBLEEX=14
+
+    OUT = 15
 
 
 class Automaton:
@@ -28,8 +34,12 @@ class Automaton:
     def __init__(self):
         self.currentSheet = None
         self.currentState = State.IDLE
+        self.currentExo=None
         self.TRANSITIONS = {
-            State.IDLE: {"add": State.ADD, "delete": State.DEL, "create": State.CREATE, "out":State.OUT},
+            State.IDLE: {"add": State.ADD, 
+                         "delete": State.DEL, 
+                         "create": State.CREATE, 
+                         "out":State.OUT},
             State.ADD: {"done": State.IDLE},
             State.DEL: {"done": State.IDLE},
             State.CREATE: {"done": State.OPTIONS},
@@ -39,6 +49,7 @@ class Automaton:
                                 "date": State.DATE,
                                 "addex": State.ADDEX,
                                 "delete": State.DELEX,
+                                "editex":State.EDITEX,
                                 "quit": State.QUIT,
                                 },
             State.OK: {"done" : State.IDLE},
@@ -48,6 +59,11 @@ class Automaton:
             State.DELEX: {"done": State.OPTIONS},
             State.ADDEX: {"done": State.OPTIONS},
             State.QUIT:{"done":State.IDLE},
+            State.EDITEX:{"addvisible":State.ADDVISIBLEEX,
+                          "delvisible":State.DELVISIBLEEX,
+                          "quit":State.OPTIONS},
+            State.ADDVISIBLEEX:{"done":State.EDITEX},
+            State.DELVISIBLEEX:{"done":State.EDITEX},
             State.OUT:{}
         }
         
@@ -64,7 +80,10 @@ class Automaton:
             State.ADDEX: "addex",
             State.DELEX: "delex",
             State.QUIT: "quit",
-            State.OUT: "out"
+            State.OUT: "out",
+            State.EDITEX:"editex",
+            State.ADDVISIBLEEX:"addvisibleex",
+            State.DELVISIBLEEX:"delvisibleex"
         }
 
 
@@ -106,21 +125,16 @@ class Automaton:
         title = input("Title of the new sheet : ")
         self.currentSheet = s.Sheet(title)
 
-        self.currentState = State.OPTIONS
-
     # Adding a new exercise in the database
     def add(self):
         ex_file = input("Exercise file name to add : ")
         bdmanager.add(ex_file)
-
-        self.currentState = State.IDLE
 
     # Deleting an existing exercise in the database
     def delete(self):
         ex_file = input("Exercise file name to delete : ")
         bdmanager.delete(ex_file)
 
-        self.currentState = State.IDLE
 
     def idle(self):
         return
@@ -165,6 +179,15 @@ class Automaton:
     def out(self):
         return
 
+    def editex(self):
+        add_del=input("name exo")
+        return
+    
+    def addvisibleex(self):
+        field = input("Field name to add : ")
+    
+    def delvisibleex(self):
+        return
 
     def main(self):
         

@@ -10,6 +10,7 @@
     let references = label("")
     let language = label("français")
     let material = label("")
+    let name=label("format.typ")
 }
 
 = Exercise

@@ -16,11 +16,18 @@ class Sheet:
     
     # Adding an exercise to the actual exercise sheet
     def add(self, path):
-        self.list.append(path)
+        exo=e.loadExercise(path)
+        
+        self.ex.list.append(exo)
 
     # Deleting an exercise existing in the actual exercise sheet
-    def delete(self, path):
-        self.list.append(path)
+    def delete(self, name):
+        for exo in self.ex:
+            if exo.name == name:
+                self.ex.list.remove(exo)
+                return    
+        print("Error name unknow")
+        
 
     # Functions editing the heading format
     def editTitle(self, title):
@@ -42,11 +49,36 @@ class Sheet:
 
 # Converting Sheet object to .typ file
 def toTyp(self):
-    # TODO
-    # Creation of all exercise objects 
+    
+    f = open(self.output)
+
+    #heading
+    for head in self.heading:
+        f.write(self.head)
+
+    #sheet content
+    for exo in self.ex :
+        for ex_header in exo.visible.keys():
+            f.write(ex_header + " : " + exo.visible[ex_header] + "\n")
+            if(ex_header == "solution"):
+                solution_visible = True
+
+        f.write(exo.content)
+        if(solution_visible):
+            f.write(exo.solution)
+        f.write("\n")
+
     return
 
 # using typst tools for the file 
-def setFormat():
-    # TODO
+def setFormat(self):
+    template = "../BD/TYPST/utilities.typ"
+    importTemplate = "import " + template + ","
+
+    f = open(self.output)
+    f.seek(0)
+    f.write(importTemplate + "\n")
+
+
+
     return

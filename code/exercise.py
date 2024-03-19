@@ -2,7 +2,7 @@ import sys
 import re 
 
 class Exercise:
-    def __init__(self, content, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
+    def __init__(self, content, name=None, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
         self.metadata = {"title" : title,
                         "duration" : duration,
                         "difficulty" : difficulty,
@@ -13,7 +13,8 @@ class Exercise:
                         "author" : author,
                         "references" : references,
                         "language" : language,
-                        "material" : material
+                        "material" : material,
+                        "name" : name
         }
 
         # Dictionary of all visible fields on the final output
@@ -64,6 +65,15 @@ def loadExerciseLatex(path):
             exercise.metadata[key] = value
     
     return exercise
+
+def loadExercise(path):
+    ext = ext = path.split(".")[-1]
+
+    if(ext == "typ"):
+        loadExerciseTypst(path)
+    else:
+        loadExerciseLatex(path)
+
 
 def loadExerciseTypst(path):
     f = open(path, 'r')

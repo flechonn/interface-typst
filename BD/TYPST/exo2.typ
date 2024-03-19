@@ -10,6 +10,7 @@
     let references = label("none")
     let language = label("english")
     let material = label("none")
+    let name=label("exo2")
 }
 
 = Exercise
