@@ -40,8 +40,6 @@ class Sheet:
 
 
 
-
-
 # Converting Sheet object to .typ file
 def toTyp(self):
     # TODO
