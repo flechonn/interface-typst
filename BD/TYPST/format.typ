@@ -11,3 +11,13 @@
     let language = label("français")
     let material = label("")
 }
+
+= Exercise
+
+// Exercise body
+
+= Soluce
+
+#show terms: soluce => {
+  // hides the solution
+}

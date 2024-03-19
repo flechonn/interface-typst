@@ -1,0 +1,39 @@
+\documentclass{article}
+
+% Commande pour définir les métadonnées
+\newcommand{\setMeta}[2]{}
+
+\setMeta{title}{Complexité algorithmique}
+\setMeta{difficulty}{difficile}
+\setMeta{duration}{1h30}
+\setMeta{author}{Moi}
+\setMeta{solution}{1} 
+\setMeta{references}{Aurelie Lagoute}
+\setMeta{language}{français}
+\setMeta{bonus}{0}
+
+\begin{document}
+
+\section{Exercice}
+
+\subsection*{Question}
+Considérez l'algorithme suivant qui trie un tableau d'entiers en utilisant le tri par insertion :
+\begin{verbatim}
+fonction tri_insertion(tab):
+    pour i de 1 à longueur(tab) - 1 faire
+        x = tab[i]
+        j = i - 1
+        tant que j >= 0 et tab[j] > x faire
+            tab[j + 1] = tab[j]
+            j = j - 1
+        fin tant que
+        tab[j + 1] = x
+    fin pour
+\end{verbatim}
+
+Quelle est la complexité temporelle de cet algorithme ? Justifiez votre réponse.
+
+\subsection*{Solution}
+La complexité temporelle de l'algorithme de tri par insertion est de \(O(n^2)\), où \(n\) est la taille du tableau à trier. Cela est dû au fait que dans le pire des cas, lorsque le tableau est inversément trié, chaque élément doit être déplacé vers sa position correcte dans le tableau, ce qui nécessite \(O(n)\) opérations pour chaque élément du tableau. Ainsi, le nombre total d'opérations dans le pire des cas est proportionnel à \(n \times n = n^2\).
+
+\end{document}
