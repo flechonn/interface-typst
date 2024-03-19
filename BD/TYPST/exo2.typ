@@ -18,25 +18,23 @@ Write an algorithm to find the maximum element in an array of integers.
 
 = Solution
 
-#show terms: solution => {
-  ```py
-  def find_max_element(arr):
-    # Initialize max_element with the first element of the array
-    max_element = arr[0]
-    
-    # Iterate through the array starting from the second element
-    for num in arr[1:]:
-        # Update max_element if the current element is greater
-        if num > max_element:
-            max_element = num
-    
-    # Return the maximum element
-    return max_element
+```py
+def find_max_element(arr):
+  # Initialize max_element with the first element of the array
+  max_element = arr[0]
+  
+  # Iterate through the array starting from the second element
+  for num in arr[1:]:
+      # Update max_element if the current element is greater
+      if num > max_element:
+          max_element = num
+  
+  # Return the maximum element
+  return max_element
 
-  # Example usage:
-  array = [3, 5, 2, 9, 10, 7, 1]
-  print("Maximum element in the array:", find_max_element(array))
+# Example usage:
+array = [3, 5, 2, 9, 10, 7, 1]
+print("Maximum element in the array:", find_max_element(array))
 
-  ```
-}
+```
 

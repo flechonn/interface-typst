@@ -19,7 +19,4 @@ Calculez la dérivée de la fonction $f(x) = x^2 + 3x -2$
 
 = Solution
 
-#show terms: solution => {
-
-}
 

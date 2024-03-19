@@ -32,6 +32,4 @@ for n in numbers {
 
 = Solution
 
-#show terms: solution => {
-  sum = 5 + 8 + 12 + 3 = 28.
-}
+sum = 5 + 8 + 12 + 3 = 28.
