@@ -17,14 +17,12 @@ class Sheet:
     def display_exercises(self):
         print("List of exercises:")
         for i, exercise in enumerate(self.ex, 1):
-            print(f"{i}. {exercise}")
+            print(f"exercise number {i}")
+            exercise.printExercise()
         
     # Adding an exercise to the actual exercise sheet
     def add(self, path):
-        exo:Exercise
         exo=loadExercise(path)
-        exo.printExercise()
-        print(self.ex)
         self.ex.append(exo)
 
     # Deleting an exercise existing in the actual exercise sheet

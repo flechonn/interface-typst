@@ -97,7 +97,6 @@ def loadExercise(path):
 
 
 def loadExerciseTypst(path):
-    print("path",path)
     f = open(path, 'r')
     lines = f.readlines()
     

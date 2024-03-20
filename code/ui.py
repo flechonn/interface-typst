@@ -108,6 +108,7 @@ class Automaton:
                 print(f"- \033[92m{option}\033[0m")
             return self.currentState
         return next_state
+    
 
     def call_function(self):
         function_name = self.functions.get(self.currentState)
@@ -164,7 +165,6 @@ class Automaton:
 
 
     def addex(self):
-        print("Adding exercise menu")
         ex = input("try with ../BD/TYPST/exo1.typ :")
         self.currentSheet.add(ex)
 
