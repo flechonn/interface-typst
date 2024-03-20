@@ -14,16 +14,25 @@ class Sheet:
         self.ex: list[Exercise] = ex # List of exercise paths existing in the sheet
         self.output = output # Name of the output file
     
-    def display_exercises(self):
+    def displayExercises(self):
         print("List of exercises:")
         for i, exercise in enumerate(self.ex, 1):
             print(f"exercise number {i}")
             exercise.printExercise()
+    
+    def displayExercisesNames(self):
+        print("List of exercises:")
+        for i, exercise in enumerate(self.ex, 1):
+            name=exercise.metadata["name"]
+            print("exercise name :",colorama.Fore.GREEN+"",name+colorama.Fore.RESET)
+            
         
     # Adding an exercise to the actual exercise sheet
     def add(self, path):
         exo=loadExercise(path)
         self.ex.append(exo)
+        print(exo.metadata["name"],"added to sheet")
+        
 
     # Deleting an exercise existing in the actual exercise sheet
     def delete(self, name):

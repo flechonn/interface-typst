@@ -1,5 +1,7 @@
 import sys
-import re 
+import re
+
+import colorama 
 
 class Exercise:
     def __init__(self, content, name=None, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
@@ -32,13 +34,15 @@ class Exercise:
         return self.id
 
     def printFieldNotVisible(self):
+        print("Invisible Field: "+colorama.Fore.LIGHTCYAN_EX +"", end="")
         not_visible_fields = set(self.metadata.keys()) - set(self.visible.keys())
-        for field in not_visible_fields:
-            print(field)
+        print(", ".join(not_visible_fields)+colorama.Fore.RESET+"")
+        
     
     def printFieldVisible(self):
-        for field in self.visible.keys():
-            print(field)
+        print("Visible Field: "+colorama.Fore.LIGHTCYAN_EX +"", end="")
+        print(", ".join(self.visible.keys())+colorama.Fore.RESET+"")       
+ 
     
     def printExercise(self):
         print(self.metadata)
@@ -46,7 +50,10 @@ class Exercise:
     
     # Add the field (string) to the dictionary of visible fields
     def addVisible(self, field):
-        if field in self.metadata.key():
+        if field in self.visible.keys():
+            print(colorama.Fore.BLUE+"Error: field is already visible.")
+            self.printFieldNotVisible()
+        elif field in self.metadata.keys():
             self.visible[field] = self.metadata[field]
             print("field : ",field," is now visible")
         else:
@@ -59,9 +66,12 @@ class Exercise:
     def removeVisible(self, field):
         if field in self.visible.keys():
             self.visible.pop(field)
-            print("Field:", field, "has been removed from the visible dictionary.")
+            print("Field:", field, "is now invisible dictionary.")
+        elif field in self.metadata.keys():
+            print("Field:", field, "is already invisible dictionary. Please enter one of the visible fields:")
+            self.printFieldVisible()
         else:
-            print("\033[91mError: Invalid field or field already invisible.\033[0m Please enter one of the visible fields:")
+            print("\033[91mError: Invalid field \033[0m Please enter one of the visible fields:")
             self.printFieldVisible()
 
         

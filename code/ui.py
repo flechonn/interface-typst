@@ -49,7 +49,7 @@ class Automaton:
                                 "author": State.AUTHOR, 
                                 "date": State.DATE,
                                 "addex": State.ADDEX,
-                                "delete": State.DELEX,
+                                "delex": State.DELEX,
                                 "editex":State.EDITEX,
                                 "quit": State.QUIT,
                                 },
@@ -187,15 +187,18 @@ class Automaton:
         return
 
     def editex(self):
-        self.currentSheet.display_exercises()
+        self.currentSheet.displayExercisesNames()
+
         if(self.currentSheet.ex==None):
             print("There are no exercises to edit.")
             return
         
         name=input("name of the exercise you want to edit :")
         for exo in self.currentSheet.ex:
-            if exo.name == name:
+            if exo.metadata["name"] == name:
                 self.currentExo=exo
+                self.currentSheet.displayExercisesNames()
+
                 return
             
         self.currentExo=None
@@ -203,6 +206,8 @@ class Automaton:
         return 
     
     def addvisibleex(self):
+        self.currentExo.printFieldNotVisible()
+
         if(self.currentExo==None):
             print("Exercise Name invalid please enter a valid name")
             self.currentState=State.EDITEX
@@ -212,6 +217,7 @@ class Automaton:
         return
     
     def delvisibleex(self):
+        self.currentExo.printFieldVisible()
         if(self.currentExo==None):
             print("Exercise Name invalid please enter a valid name")
             self.currentState=State.EDITEX
@@ -226,7 +232,7 @@ class Automaton:
             # Displaying valid events for the current state
             valid = self.valid_events()
             colored_events = [f"\033[92m{event}\033[0m" for event in valid]
-            print(f"Possible events : {', '.join(colored_events)}")
+            print(f"\nPossible events : {', '.join(colored_events)}")
             # Transition from the current state to the next state, in function of the action entered
             action = input("Enter an action : ").strip().lower()
             self.currentState = self.transition(action)
