@@ -108,14 +108,20 @@ class Automaton:
                 print(f"- \033[92m{option}\033[0m")
             return self.currentState
         return next_state
-    
 
+    def doneInNextTransition(self):
+        valid = self.valid_events()
+        if "done" in valid:
+            self.currentState = self.transition("done")
+
+    #call the fonction of the state and try apply "done" if it is possible
     def call_function(self):
         function_name = self.functions.get(self.currentState)
         if function_name:
             function = getattr(self, function_name, None)
             if function:
                 function()
+                self.doneInNextTransition()
             else:
                 print(f"Function '{function_name}' not found.")
         else:
@@ -219,20 +225,15 @@ class Automaton:
         while self.currentState != State.OUT:
             # Displaying valid events for the current state
             valid = self.valid_events()
-
-            #try if there is no other choici
-            if "done" in valid:
-                self.currentState = self.transition("done")
-            else:
-                colored_events = [f"\033[92m{event}\033[0m" for event in valid]
-                print(f"Possible events : {', '.join(colored_events)}")
-                # Transition from the current state to the next state, in function of the action entered
-                action = input("Enter an action : ").strip().lower()
-                self.currentState = self.transition(action)
-                print("Current state :", self.currentState)
-
-                # Calling the function, result of the transition
-                self.call_function()
+            colored_events = [f"\033[92m{event}\033[0m" for event in valid]
+            print(f"Possible events : {', '.join(colored_events)}")
+            # Transition from the current state to the next state, in function of the action entered
+            action = input("Enter an action : ").strip().lower()
+            self.currentState = self.transition(action)
+            print("Current state :", self.currentState)
+            
+            # Calling the function, result of the transition
+            self.call_function()
 
             
 
