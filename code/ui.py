@@ -177,7 +177,7 @@ class Automaton:
     def delex(self):
         print("Deleting exercise menu")
         ex = input("try with ../BD/TYPST/exo1.typ :")
-        self.currentSheet.add(ex)
+        self.currentSheet.delete(ex)
 
     def quit(self):
         print("Quit the current sheet")

@@ -22,9 +22,12 @@ class Sheet:
     
     def displayExercisesNames(self):
         print("List of exercises:")
-        for i, exercise in enumerate(self.ex, 1):
-            name=exercise.metadata["name"]
-            print("exercise name :",colorama.Fore.GREEN+"",name+colorama.Fore.RESET)
+        if not self.ex:
+            print("No exercises available in :",self.title)
+        else :
+            for i, exercise in enumerate(self.ex, 1):
+                name=exercise.metadata["name"]
+                print("exercise name :",colorama.Fore.GREEN+"",name+colorama.Fore.RESET)
             
         
     # Adding an exercise to the actual exercise sheet
@@ -37,7 +40,7 @@ class Sheet:
     # Deleting an exercise existing in the actual exercise sheet
     def delete(self, name):
         for exo in self.ex:
-            if exo.name == name:
+            if exo.metadata["name"] == name:
                 self.ex.remove(exo)
                 return    
         print("Error name unknow")
