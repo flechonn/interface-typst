@@ -2,20 +2,25 @@ import sys
 import re 
 
 class Exercise:
-    def __init__(self, content, name=None, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
-        self.metadata = {"title" : title,
-                        "duration" : duration,
-                        "difficulty" : difficulty,
-                        "solution" : solution, # booléen indiquant s'il y a une solution à la fin du fichier .typ
-                        "figures" : figures,
-                        "points" : points,
-                        "bonus" : bonus, # booléen indiquant si l'exercice est facultatif ou non
-                        "author" : author,
-                        "references" : references,
-                        "language" : language,
-                        "material" : material,
-                        "name" : name
-        }
+    def __init__(self, content, meta=None, name=None, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
+        
+        if (meta != None):
+            self.metadata = meta
+        else:
+            self.metadata = {"title" : title,
+                            "duration" : duration,
+                            "difficulty" : difficulty,
+                            "solution" : solution, # booléen indiquant s'il y a une solution à la fin du fichier .typ
+                            "figures" : figures,
+                            "points" : points,
+                            "bonus" : bonus, # booléen indiquant si l'exercice est facultatif ou non
+                            "author" : author,
+                            "references" : references,
+                            "language" : language,
+                            "material" : material,
+                            "name" : name
+            }
+
 
         # Dictionary of all visible fields on the final output
         self.visible = dict(self.metadata)
@@ -43,31 +48,51 @@ class Exercise:
     def removeVisible(self, field):
         self.visible.pop(field)
 
+def initMeta():
+    return {"title" : None,
+            "duration" : None,
+            "difficulty" : None,
+            "solution" : None, # booléen indiquant s'il y a une solution à la fin du fichier .typ
+            "figures" : None,
+            "points" : None,
+            "bonus" : None, # booléen indiquant si l'exercice est facultatif ou non
+            "author" : None,
+            "references" : None,
+            "language" : None,
+            "material" : None,
+            "name" : None
+            }
+
 def loadExerciseLatex(path):
-
-    f = open(path, 'r')
-    lines = f.readlines()
+    try:
+        with open(path, "r") as f:
+            content = f.read()
+    except FileNotFoundError:
+        print(f"Le fichier '{path}' est introuvable.")
+        exit()
     
-    exercise = Exercise(None)
+    meta_match = re.findall(r'\\setMeta\{(\w+)\}\{(.+?)\}', content, re.DOTALL)
+    exercise_match = re.search(r'\\section\{Exercice\}(.*?)\\section\{Solution\}', content, re.DOTALL)
+    solution_match = re.search(r'\\section\{Solution\}(.*?)\Z', content, re.DOTALL)
 
-    # Metadatas do not have a precise order in the formatted LaTeX file
-    for line in lines:
-
-        extractedwords = re.search(r'\\setMeta\{(\w+)\}\{([^}]*)\}', line)
-        if (extractedwords != None):
-            key = extractedwords.group(1)
-            key = key.replace("\my", "")
-            value = extractedwords.group(2)
-
-            if (value == ""):
-                value = None
-
-            exercise.metadata[key] = value
+    if meta_match:
+        metadata = initMeta()
+        for key, value in meta_match: metadata[key] = value
     
-    return exercise
+    if exercise_match:
+        content = exercise_match.group(1).strip()
+
+    if solution_match:
+        solution = solution_match.group(1).strip()
+
+    # Object exercise creation
+
+    ex = Exercise(metadata=metadata, content=content, solution=solution)
+
+    return ex
 
 def loadExercise(path):
-    ext = ext = path.split(".")[-1]
+    ext = path.split(".")[-1]
 
     if(ext == "typ"):
         loadExerciseTypst(path)
@@ -75,12 +100,12 @@ def loadExercise(path):
         loadExerciseLatex(path)
 
 
-def loadExerciseTypst(file_path):
+def loadExerciseTypst(path):
     try:
-        with open(file_path, "r") as f:
+        with open(path, "r") as f:
             content = f.read()
     except FileNotFoundError:
-        print(f"Le fichier '{file_path}' est introuvable.")
+        print(f"Le fichier '{path}' est introuvable.")
         exit()
 
     meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
@@ -98,9 +123,7 @@ def loadExerciseTypst(file_path):
 
     # Object exercise creation
 
-    ex = Exercise(None)
-    ex.metadata = metadata
-    ex.content = content
-    ex.solution = solution
+    ex = Exercise(metadata=metadata, content=content, solution=solution)
 
     return ex
+
