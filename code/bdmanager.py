@@ -9,11 +9,11 @@ def add(path):
 
     ext = name.split(".")[-1]
 
-    if(name == "typ"):
-        BD_path = "../DB/TYPST"
+    if(ext == "typ"):
+        BD_path = "../BD/TYPST"
 
     else:
-        BD_path = "../DB/LATEX"
+        BD_path = "../BD/LATEX"
 
     shutil.copy(path, BD_path)
 
@@ -25,10 +25,10 @@ def delete(path):
     ext = path.split(".")[-1]
 
     if(ext == "typ"):
-        BD_path = "../DB/TYPST/" + path
+        BD_path = "../BD/TYPST/" + path
 
     else:
-        BD_path = "../DB/LATEX/" + path
+        BD_path = "../BD/LATEX/" + path
 
     if os.path.exists(BD_path):
         os.remove(BD_path)
