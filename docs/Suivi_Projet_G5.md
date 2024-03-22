@@ -55,3 +55,9 @@ Finalisation du diagramme de Gantt
 * Implémentation du bdmanager.py
 * Traduction du README en anglais
 * Ajout du mode en ligne de commandes, en plus du mode interactif
+
+### Mardi 19/03
+
+* Modification de l'automate (ajout d'options)
+* Modification de LoadExerciseTypst
+* En cours d'implémentation : fonction toTyp

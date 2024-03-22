@@ -19,8 +19,6 @@ Considérez un signal sinusoïdal x(t)=$A⋅sin(2π*f*t+ϕ)$, où AA est l'ampli
 
 = Solution
 
-
-
 Solution de l'exercice:
 
 Pour calculer la valeur efficace (RMS) d'un signal sinusoïdal $x(t)=A⋅sin(2*π*f*t+ϕ)$ nous pouvons utiliser la formule suivante :
