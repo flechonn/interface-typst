@@ -87,6 +87,10 @@ def loadExerciseLatex(path):
 
     # Object exercise creation
 
+    for key in metadata.keys():
+        if metadata[key] ==  "":
+            metadata[key] = None
+
     ex = Exercise(meta=metadata, content=content, solution=solution)
 
     return ex
@@ -128,7 +132,4 @@ def loadExerciseTypst(path):
             metadata[key] = None
 
     ex = Exercise(meta=metadata, content=content, solution=solution)
-    print(metadata)
     return ex
-
-loadExerciseTypst("../BD/TYPST/format.typ")
