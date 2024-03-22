@@ -109,6 +109,8 @@ def loadExerciseLatex(path):
     exercise_match = re.search(r'\\section\{Exercice\}(.*?)\\section\{Solution\}', content, re.DOTALL)
     solution_match = re.search(r'\\section\{Solution\}(.*?)\Z', content, re.DOTALL)
 
+    solution = None
+
     if meta_match:
         metadata = initMeta()
         for key, value in meta_match: metadata[key] = value
@@ -149,6 +151,8 @@ def loadExerciseTypst(path):
     meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
     exercise_match = re.search(r'= Exercise(.*?)= Solution', content, re.DOTALL)
     solution_match = re.search(r'= Solution\n(.*?)', content, re.DOTALL)
+
+    solution = None
 
     if meta_match:
         metadata = dict(re.findall(r'let\s+(\w+)\s*=\s*label\("(.*?)"\)', meta_match.group(1)))
