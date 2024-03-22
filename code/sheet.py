@@ -78,14 +78,15 @@ class Sheet:
         for exo in self.ex :
             solution_visible = False
             for ex_header in exo.visible.keys():
-                f.write(ex_header + " : " + exo.visible[ex_header] + "\n")
-                if(ex_header == "solution"):
-                    solution_visible = True
+                if(exo.visible[ex_header]):
+                    f.write(ex_header + " : " + exo.visible[ex_header] + " \ ")
+                    if(ex_header == "solution"):
+                        solution_visible = True
 
             f.write(exo.content)
             if(solution_visible):
                 f.write(exo.solution)
-            f.write("\n")
+            f.write(" \ ")
 
         return
 
