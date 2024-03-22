@@ -27,13 +27,13 @@ def testLoadingExercisesTypst():
     assert(exo1.metadata["duration"] == "1h30")
     assert(exo1.metadata["difficulty"] == "easy")
     assert(exo1.metadata["solution"] == "0")
-    assert(exo1.metadata["figures"] == "")
+    assert(exo1.metadata["figures"] == None)
     assert(exo1.metadata["points"] == "5")
     assert(exo1.metadata["bonus"] == "0")
     assert(exo1.metadata["author"] == "Moi")
-    assert(exo1.metadata["references"] == "")
+    assert(exo1.metadata["references"] == None)
     assert(exo1.metadata["language"] == "français")
-    assert(exo1.metadata["material"] == "")
+    assert(exo1.metadata["material"] == None)
 
 
 def tests():
