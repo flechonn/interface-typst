@@ -1,5 +1,7 @@
 import sys
-import re 
+import re
+
+import colorama 
 
 class Exercise:
     def __init__(self, content, meta=None, name=None, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
@@ -36,17 +38,49 @@ class Exercise:
     def get_id(self):
         return self.id
 
+    def printFieldNotVisible(self):
+        print("Invisible Field: "+colorama.Fore.LIGHTCYAN_EX +"", end="")
+        not_visible_fields = set(self.metadata.keys()) - set(self.visible.keys())
+        print(", ".join(not_visible_fields)+colorama.Fore.RESET+"")
+        
+    
+    def printFieldVisible(self):
+        print("Visible Field: "+colorama.Fore.LIGHTCYAN_EX +"", end="")
+        print(", ".join(self.visible.keys())+colorama.Fore.RESET+"")       
+ 
+    
     def printExercise(self):
         print(self.metadata)
         print(self.content)
     
     # Add the field (string) to the dictionary of visible fields
     def addVisible(self, field):
-        self.visible[field] = self.metadata[field]
+        if field in self.visible.keys():
+            print(colorama.Fore.BLUE+"Error: field is already visible.")
+            self.printFieldNotVisible()
+        elif field in self.metadata.keys():
+            self.visible[field] = self.metadata[field]
+            print("field : ",field," is now visible")
+        else:
+            print("\033[91mError: Invalid field.\033[0m Please enter one of the field:")
+            self.printFieldNotVisible()
+            
+
         
     # Remove the field (string) to the dictionary of visible fields
     def removeVisible(self, field):
-        self.visible.pop(field)
+        if field in self.visible.keys():
+            self.visible.pop(field)
+            print("Field:", field, "is now invisible dictionary.")
+        elif field in self.metadata.keys():
+            print("Field:", field, "is already invisible dictionary. Please enter one of the visible fields:")
+            self.printFieldVisible()
+        else:
+            print("\033[91mError: Invalid field \033[0m Please enter one of the visible fields:")
+            self.printFieldVisible()
+
+        
+
 
 def initMeta():
     return {"title" : None,
@@ -91,7 +125,7 @@ def loadExerciseLatex(path):
         if metadata[key] ==  "":
             metadata[key] = None
 
-    ex = Exercise(meta=metadata, content=content, solution=solution)
+    ex = Exercise(meta=metadata, content=content, solution_content=solution)
 
     return ex
 
@@ -99,9 +133,9 @@ def loadExercise(path):
     ext = path.split(".")[-1]
 
     if(ext == "typ"):
-        loadExerciseTypst(path)
+        return loadExerciseTypst(path)
     else:
-        loadExerciseLatex(path)
+        return loadExerciseLatex(path)
 
 
 def loadExerciseTypst(path):
@@ -131,5 +165,5 @@ def loadExerciseTypst(path):
         if metadata[key] ==  "":
             metadata[key] = None
 
-    ex = Exercise(meta=metadata, content=content, solution=solution)
+    ex = Exercise(meta=metadata, content=content, solution_content=solution)
     return ex
