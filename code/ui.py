@@ -152,7 +152,8 @@ class Automaton:
         print("Options menu")
 
     def ok(self):
-        print("OK")
+        print("création de la fiche : ",self.currentSheet.title,"et de son fichier respectif")
+        self.currentSheet.toTyp()
 
     def title(self):
         print("Title menu")

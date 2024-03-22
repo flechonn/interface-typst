@@ -4,20 +4,25 @@ import re
 import colorama 
 
 class Exercise:
-    def __init__(self, content, name=None, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
-        self.metadata = {"title" : title,
-                        "duration" : duration,
-                        "difficulty" : difficulty,
-                        "solution" : solution, # booléen indiquant s'il y a une solution à la fin du fichier .typ
-                        "figures" : figures,
-                        "points" : points,
-                        "bonus" : bonus, # booléen indiquant si l'exercice est facultatif ou non
-                        "author" : author,
-                        "references" : references,
-                        "language" : language,
-                        "material" : material,
-                        "name" : name
-        }
+    def __init__(self, content, meta=None, name=None, title=None, duration=None, difficulty=None, solution=None, figures=None, points=None, bonus=None, author=None, references=None, language=None, material=None, solution_content=None):
+        
+        if (meta != None):
+            self.metadata = meta
+        else:
+            self.metadata = {"title" : title,
+                            "duration" : duration,
+                            "difficulty" : difficulty,
+                            "solution" : solution, # booléen indiquant s'il y a une solution à la fin du fichier .typ
+                            "figures" : figures,
+                            "points" : points,
+                            "bonus" : bonus, # booléen indiquant si l'exercice est facultatif ou non
+                            "author" : author,
+                            "references" : references,
+                            "language" : language,
+                            "material" : material,
+                            "name" : name
+            }
+
 
         # Dictionary of all visible fields on the final output
         self.visible = dict(self.metadata)
@@ -107,23 +112,31 @@ def loadExercise(path):
 
 
 def loadExerciseTypst(path):
-    f = open(path, 'r')
-    lines = f.readlines()
-    
-    exercise = Exercise(None)
+    try:
+        with open(path, "r") as f:
+            content = f.read()
+    except FileNotFoundError:
+        print(f"Le fichier '{path}' est introuvable.")
+        exit()
 
-    # Metadatas do not have a precise order in the formatted Typst file
-    for line in lines:
+    meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
+    exercise_match = re.search(r'= Exercise(.*?)= Solution', content, re.DOTALL)
+    solution_match = re.search(r'= Solution(.*?)', content, re.DOTALL)
 
-        extractedwords = re.search(r'let\s+(\w+)\s+=\s+label\("([^"]*)"\)', line)
-        if (extractedwords != None):
-            key = extractedwords.group(1)
-            key = key.replace("\my", "")
-            value = extractedwords.group(2)
+    solution = None
 
-            if (value == ""):
-                value = None
+    if meta_match:
+        #print(meta_match.group(1))
+        metadata = dict(re.findall(r'let\s+(\w+)\s*=\s*label\("(.*?)"\)', meta_match.group(1)))
 
-            exercise.metadata[key] = value
-    
-    return exercise
+    if exercise_match:
+        content = exercise_match.group(1).strip()
+
+    if solution_match:
+        solution = solution_match.group(1).strip()
+
+    # Object exercise creation
+
+    ex = Exercise(meta=metadata, content=content, solution=solution)
+
+    return ex

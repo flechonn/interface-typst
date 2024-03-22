@@ -12,7 +12,7 @@ class Sheet:
                         "duration" : duration
         }
         self.ex: list[Exercise] = ex # List of exercise paths existing in the sheet
-        self.output = output # Name of the output file
+        self.output = title+".typ" # Name of the output file
     
     def displayExercises(self):
         print("List of exercises:")
@@ -64,28 +64,30 @@ class Sheet:
 
 
 
-# Converting Sheet object to .typ file
-def toTyp(self):
-    
-    f = open(self.output)
+    # Converting Sheet object to .typ file
+    def toTyp(self):
 
-    #heading
-    for head in self.heading:
-        f.write(self.head)
+        f = open(self.output, 'w')
 
-    #sheet content
-    for exo in self.ex :
-        for ex_header in exo.visible.keys():
-            f.write(ex_header + " : " + exo.visible[ex_header] + "\n")
-            if(ex_header == "solution"):
-                solution_visible = True
+        #heading
+        if(not self.heading):
+            for head in self.heading:
+                f.write(head)
 
-        f.write(exo.content)
-        if(solution_visible):
-            f.write(exo.solution)
-        f.write("\n")
+        #sheet content
+        for exo in self.ex :
+            solution_visible = False
+            for ex_header in exo.visible.keys():
+                f.write(ex_header + " : " + exo.visible[ex_header] + "\n")
+                if(ex_header == "solution"):
+                    solution_visible = True
 
-    return
+            f.write(exo.content)
+            if(solution_visible):
+                f.write(exo.solution)
+            f.write("\n")
+
+        return
 
 # using typst tools for the file 
 def setFormat(self):

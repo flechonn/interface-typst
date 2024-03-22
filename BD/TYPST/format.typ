@@ -1,4 +1,4 @@
-#show terms: it => {
+#show terms: meta => {
     let title = label("Mon Title")
     let duration = label("1h30")
     let difficulty = label("easy")
@@ -17,8 +17,4 @@
 
 // Exercise body
 
-= Soluce
-
-#show terms: soluce => {
-  // hides the solution
-}
+= Solution
