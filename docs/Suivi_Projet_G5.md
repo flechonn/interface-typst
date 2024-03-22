@@ -61,3 +61,12 @@ Finalisation du diagramme de Gantt
 * Modification de l'automate (ajout d'options)
 * Modification de LoadExerciseTypst
 * En cours d'implémentation : fonction toTyp
+
+### Vendredi 22/03
+
+* Merge des branches pour obtenir un projet cohérent
+* Finalisation de la fonction toTypst
+* Test de la transition OK de l'automate
+* Finalisation des implémentations de LoadExercise (Typst et Latex)
+* Finalisation du fichier bdmanager.py
+* Remise en question de l'implémentation de l'automate
