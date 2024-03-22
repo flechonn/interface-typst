@@ -87,7 +87,7 @@ def loadExerciseLatex(path):
 
     # Object exercise creation
 
-    ex = Exercise(metadata=metadata, content=content, solution=solution)
+    ex = Exercise(meta=metadata, content=content, solution=solution)
 
     return ex
 
@@ -110,7 +110,7 @@ def loadExerciseTypst(path):
 
     meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
     exercise_match = re.search(r'= Exercise(.*?)= Solution', content, re.DOTALL)
-    solution_match = re.search(r'#show terms: solution => {(.*?)}', content, re.DOTALL)
+    solution_match = re.search(r'= Solution\n(.*?)', content, re.DOTALL)
 
     if meta_match:
         metadata = dict(re.findall(r'let\s+(\w+)\s*=\s*label\("(.*?)"\)', meta_match.group(1)))
@@ -123,7 +123,12 @@ def loadExerciseTypst(path):
 
     # Object exercise creation
 
-    ex = Exercise(metadata=metadata, content=content, solution=solution)
+    for key in metadata.keys():
+        if metadata[key] ==  "":
+            metadata[key] = None
 
+    ex = Exercise(meta=metadata, content=content, solution=solution)
+    print(metadata)
     return ex
 
+loadExerciseTypst("../BD/TYPST/format.typ")
