@@ -1,6 +1,6 @@
 <span style="color:#7B7D7D;">[ FRENCH VERSION BELOW ]
 
-## COMMAND LINE DOCUMENTATION
+## INTERACTIVE MODE DOCUMENTATION
 
 **Launching the creation software**
 
@@ -56,7 +56,7 @@ $ - quit : cancel the creation of the base
 
 <span style="color:#7B7D7D;">[ FRENCH VERSION ]
 
-## DOCUMENTATION LIGNES DE COMMANDES
+## DOCUMENTATION DU MODE INTERACTIF
 
 **Lancement du logiciel de création**
 
