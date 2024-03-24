@@ -4,15 +4,15 @@
 from exercise import *
 
 class Sheet:
-    def __init__(self, title, author=None, date=None, modality=None, duration=None, ex=[], output=None):
+    def __init__(self, title, author=None, date=None, modality=None, duration=None, ex=[]):
         self.title = title
         self.heading = {"author" : author,
                         "date" : date,
                         "modality" : modality,
                         "duration" : duration
         }
-        self.ex: list[Exercise] = ex # List of exercise paths existing in the sheet
-        self.output = title+".typ" # Name of the output file
+        self.ex: list[Exercise] = ex # List of exercises existing in the sheet
+        self.output = title + ".typ" # Name of the output file
     
     def displayExercises(self):
         print("List of exercises:")
@@ -32,10 +32,8 @@ class Sheet:
         
     # Adding an exercise to the actual exercise sheet
     def add(self, path):
-        exo=loadExercise(path)
+        exo = loadExercise(path)
         self.ex.append(exo)
-        print(exo.metadata["name"],"added to sheet")
-        
 
     # Deleting an exercise existing in the actual exercise sheet
     def delete(self, name):
@@ -43,7 +41,7 @@ class Sheet:
             if exo.metadata["name"] == name:
                 self.ex.remove(exo)
                 return    
-        print("Error name unknow")
+        print("Error : unknown exercise")
         
 
     # Functions editing the heading format
@@ -69,28 +67,32 @@ class Sheet:
 
         f = open(self.output, 'w')
 
-        #heading
-        if(not self.heading):
+        # Heading
+        if not self.heading:
             for head in self.heading:
                 f.write(head)
 
-        #sheet content
+        # Sheet content
         for exo in self.ex :
             solution_visible = False
+            
             for ex_header in exo.visible.keys():
-                if(exo.visible[ex_header]):
+
+                if exo.visible[ex_header]:
                     f.write(ex_header + " : " + exo.visible[ex_header] + " \ ")
-                    if(ex_header == "solution"):
+                    if ex_header == "solution":
                         solution_visible = True
 
             f.write(exo.content)
-            if(solution_visible):
+
+            if solution_visible:
                 f.write(exo.solution)
+                
             f.write(" \ ")
 
         return
 
-# using typst tools for the file 
+# Using typst tools for the output file 
 def setFormat(self):
     template = "../BD/TYPST/utilities.typ"
     importTemplate = "import " + template + ","

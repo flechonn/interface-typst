@@ -81,7 +81,6 @@ class Exercise:
 
         
 
-
 def initMeta():
     return {"title" : None,
             "duration" : None,
