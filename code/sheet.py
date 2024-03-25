@@ -100,7 +100,4 @@ def setFormat(self):
     f = open(self.output)
     f.seek(0)
     f.write(importTemplate + "\n")
-
-
-
     return

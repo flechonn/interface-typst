@@ -25,12 +25,10 @@ class Exercise:
 
 
         # Dictionary of all visible fields on the final output
-        self.visible = dict(self.metadata)
-        self.visible.pop("solution")
-        self.visible.pop("author")
-        self.visible.pop("references")
-        self.visible.pop("language")
-        self.visible.pop("material")
+        self.visible = {"title" : title,
+                        "duration" : duration,
+                        "points" : points
+        }
 
         self.content = content
         self.solution = solution_content
@@ -102,7 +100,7 @@ def loadExerciseLatex(path):
             content = f.read()
     except FileNotFoundError:
         print(f"Le fichier '{path}' est introuvable.")
-        exit()
+        raise Exception("Error")
     
     meta_match = re.findall(r'\\setMeta\{(\w+)\}\{(.+?)\}', content, re.DOTALL)
     exercise_match = re.search(r'\\section\{Exercice\}(.*?)\\section\{Solution\}', content, re.DOTALL)
@@ -145,7 +143,7 @@ def loadExerciseTypst(path):
             content = f.read()
     except FileNotFoundError:
         print(f"Le fichier '{path}' est introuvable.")
-        exit()
+        raise Exception("Error")
 
     meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
     exercise_match = re.search(r'= Exercise(.*?)= Solution', content, re.DOTALL)

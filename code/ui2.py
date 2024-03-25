@@ -32,89 +32,12 @@ class State(Enum):
 class Automaton:
 
     def __init__(self):
-        self.currentSheet:Sheet = None
         self.currentState = State.IDLE
-        self.currentExo:Exercise=None
-        self.TRANSITIONS = {
-            State.IDLE: {"add": State.ADD, 
-                         "delete": State.DEL, 
-                         "create": State.CREATE, 
-                         "out":State.OUT},
-            State.ADD: {"done": State.IDLE},
-            State.DEL: {"done": State.IDLE},
-            State.CREATE: {"done": State.OPTIONS},
-            State.OPTIONS: {"ok" : State.OK,
-                                "title": State.TITLE, 
-                                "author": State.AUTHOR, 
-                                "date": State.DATE,
-                                "addex": State.ADDEX,
-                                "delex": State.DELEX,
-                                "editex":State.EDITEX,
-                                "quit": State.QUIT,
-                                },
-            State.OK: {"done" : State.IDLE},
-            State.TITLE: {"done": State.OPTIONS},
-            State.AUTHOR: {"done": State.OPTIONS},
-            State.DATE: {"done": State.OPTIONS},
-            State.DELEX: {"done": State.OPTIONS},
-            State.ADDEX: {"done": State.OPTIONS},
-            State.QUIT:{"done":State.IDLE},
-            State.EDITEX:{"addvisible":State.ADDVISIBLEEX,
-                          "delvisible":State.DELVISIBLEEX,
-                          "quit":State.OPTIONS},
-            State.ADDVISIBLEEX:{"done":State.EDITEX},
-            State.DELVISIBLEEX:{"done":State.EDITEX},
-            State.OUT:{}
-        }
-        
-        self.functions = {
-            State.IDLE: "idle", 
-            State.ADD: "add",
-            State.DEL: "delete",
-            State.CREATE: "create",
-            State.OPTIONS: "options",
-            State.OK: "ok",
-            State.TITLE: "title",
-            State.AUTHOR: "author",
-            State.DATE: "date",
-            State.ADDEX: "addex",
-            State.DELEX: "delex",
-            State.QUIT: "quit",
-            State.OUT: "out",
-            State.EDITEX:"editex",
-            State.ADDVISIBLEEX:"addvisibleex",
-            State.DELVISIBLEEX:"delvisibleex"
-            
-        }
+        self.currentExo : Exercise = None
+        self.currentSheet : Sheet = None
 
         self.error = False # This flag allows the automata to manage errors
 
-
-    #retrieves valid events for a given state of the State.:
-    #state is a parameter which corresponds to a state of the State 
-    def valid_events(self):
-        return list(self.TRANSITIONS.get(self.currentState, {}).keys())
-
-    # The transition(state, event) function takes two arguments: 
-    # - the current state of the State (state) 
-    # - the event (event) triggered by the user. 
-    # It uses this information to determine the next state of the controller.  
-    def transition(self, event):
-        state_possible = self.TRANSITIONS.get(self.currentState, {})
-        next_state = state_possible.get(event)
-
-        if next_state is None:
-            valid = self.valid_events()
-            print("\033[91mError: Invalid event.\033[0m Please enter one of the following events:")
-            for option in valid:
-                print(f"- \033[92m{option}\033[0m")
-            return self.currentState
-        return next_state
-
-    def doneInNextTransition(self):
-        valid = self.valid_events()
-        if "done" in valid:
-            self.currentState = self.transition("done")
 
     #call the fonction of the state and try apply "done" if it is possible
     def call_function(self):
@@ -122,12 +45,11 @@ class Automaton:
         if function_name:
             function = getattr(self, function_name, None)
             if function:
-                while function():
-                    if not(self.error):
-                        self.doneInNextTransition()
-                        break
-                    else:
-                        self.error = False
+                function()
+                if not(self.error):
+                    self.doneInNextTransition()
+                else:
+                    self.error = False
             else:
                 print(f"Function '{function_name}' not found.")
         else:
@@ -169,7 +91,11 @@ class Automaton:
     def author(self):
         print("Author menu")
         author = input()
-        self.currentSheet.editAuthor(author)
+        try :
+            self.currentSheet.editAuthor(author)
+            self.currentState = State.OPTIONS
+        except :
+            raise Exception()
 
         
 
@@ -181,12 +107,7 @@ class Automaton:
 
     def addex(self):
         ex = input("try with ../BD/TYPST/exo1.typ :")
-        try :
-            self.currentSheet.add(ex)
-            self.error = False
-        except BaseException:
-            self.error = True
-
+        self.currentSheet.add(ex)
 
     def delex(self):
         print("Deleting exercise menu")
