@@ -70,3 +70,14 @@ Finalisation du diagramme de Gantt
 * Finalisation des implémentations de LoadExercise (Typst et Latex)
 * Finalisation du fichier bdmanager.py
 * Remise en question de l'implémentation de l'automate
+  
+
+## Semaine 8 (25/03)
+
+### Lundi 25/03
+
+* Discussion de l'implémentation de l'automate
+* Avancement sur la gestion des erreurs de l'automate
+* Formattage de la feuille d'exercices
+* Tests des fonctions add et delete de BDManager
+* Tests des fonctions addex et delex 
