@@ -6,6 +6,7 @@ from sheet import *
 import bdmanager
 from exercise import *
 import subprocess
+
 # Definition of the automaton managing the interactions
 
 class State(Enum):
