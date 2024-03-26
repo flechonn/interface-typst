@@ -270,5 +270,3 @@ class Automaton:
 def main():
     aut = Automaton()
     aut.main()
-
-main()
