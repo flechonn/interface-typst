@@ -185,7 +185,7 @@ def loadExerciseTypst(path):
         if metadata[key] ==  "":
             metadata[key] = None
 
-    if(not metadata.get('name') or not metadata['name']):
+    if not metadata.get('name') or not metadata['name']:
         print("'name' attribute missing")
         raise ValueError("The file does not contain the a 'name' tag.")
     
