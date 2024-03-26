@@ -118,7 +118,8 @@ def loadExerciseLatex(path):
         print(f"The file '{path}' could not be found.")
         raise FileNotFoundError(f"The file could not be found.")
     
-    meta_match = re.findall(r'\\setMeta\{([^}]+)\}\{([^}]+)\}', content)
+    #meta_match = re.findall(r'\\setMeta\{([^}]+)\}\{([^}]+)\}', content)
+    meta_match = re.findall(r'\\setMeta\{([^}]+)\}\{([^}]*)\}', content)
     exercise_match = re.search(r'\\section\{Exercice\}(.*?)\\section\{Solution\}', content, re.DOTALL)
     solution_match = re.search(r'\\section\{Solution\}(.*?)\Z', content, re.DOTALL)
 
@@ -126,6 +127,9 @@ def loadExerciseLatex(path):
 
     if meta_match:
         metadata = dict(meta_match)
+        for key, value in meta_match:
+            metadata[key] = value if value != "" else None
+
     
     if exercise_match:
         content = exercise_match.group(1).strip()
@@ -133,6 +137,7 @@ def loadExerciseLatex(path):
     if solution_match:
         solution = solution_match.group(1).strip()
 
+    print(metadata)
     # Object exercise creation
 
     for key in metadata.keys():
@@ -184,3 +189,5 @@ def loadExerciseTypst(path):
     
     
     return ex
+
+# loadExerciseLatex("BD/LATEX/format.tex")

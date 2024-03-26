@@ -81,3 +81,12 @@ Finalisation du diagramme de Gantt
 * Formattage de la feuille d'exercices
 * Tests des fonctions add et delete de BDManager
 * Tests des fonctions addex et delex 
+
+### Mardi 26/03
+
+* Création de la documentation de l'automate
+* Implémentation finie des tests addex/delex
+* Gestion des exceptions dans l'UI, et dans les fonctions qu'il appelle
+* Nettoyage de l'implementation de l'autoamte
+* Implémentation finie de la fonction toTyp en utlisant les fonctionnalités de Typst
+* Debug de la fonction LoadExerciseLatex (ne passe pas les tests)
