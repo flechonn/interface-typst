@@ -5,7 +5,7 @@ from exercise import *
 from colorama import Fore, Style
 
 class Sheet:
-    def __init__(self, title, logo=None, author=None, date=None, modality=None, duration=None, ex=[], output=None):
+    def __init__(self, title, logo="UFR_IM2AG_2020.jpg", author=None, date=None, modality=None, duration=None, ex=[], output=None):
         self.title = title
         self.logo = logo
         self.heading = {"author" : author,
@@ -48,7 +48,7 @@ class Sheet:
         raise FileNotFoundError("The file name is not in the sheet.")        
         
 
-    # Functions editing the heading format
+    # Functions editing the metadatas of the sheet
     def editTitle(self, title):
         self.title = title
     
@@ -63,6 +63,9 @@ class Sheet:
     
     def editDuration(self, duration):
         self.heading["duration"] = duration
+    
+    def editLogo(self, logo):
+        self.logo = logo
 
 
 
