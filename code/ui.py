@@ -6,7 +6,6 @@ from sheet import *
 import bdmanager
 from exercise import *
 import subprocess
-
 # Definition of the automaton managing the interactions
 
 class State(Enum):
@@ -275,9 +274,7 @@ class Automaton:
             self.currentState = self.transition(action)
 
             # Calling the function, result of the transition
-            self.call_function()
-
-            
+            self.call_function()            
 
 def main():
     aut = Automaton()
