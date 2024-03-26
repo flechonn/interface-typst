@@ -16,12 +16,6 @@ class Sheet:
         self.ex: list[Exercise] = ex # List of exercise paths existing in the sheet
         self.output = output # Name of the output file
     
-    def displayExercises(self):
-        print("List of exercises:")
-        for i, exercise in enumerate(self.ex, 1):
-            print(f"exercise number {i}")
-            exercise.printExercise()
-    
     def displayExercisesNames(self):
         print("List of exercises :", end=" ")
         exercise_strings = [f"{Fore.CYAN}{exercise.metadata['name']}" for i, exercise in enumerate(self.ex, 1)]
