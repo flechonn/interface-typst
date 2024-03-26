@@ -5,7 +5,7 @@ from enum import Enum
 from sheet import *
 import bdmanager
 from exercise import *
-
+import subprocess
 # Definition of the automaton managing the interactions
 
 class State(Enum):
@@ -157,6 +157,8 @@ class Automaton:
     def ok(self):
         try:
             self.currentSheet.toTyp()
+            subprocess.check_output("typst compile "+self.title, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
+
         except BaseException:
             print("Sheet creation couldn't have been done")
         
@@ -211,7 +213,9 @@ class Automaton:
             for exo in self.currentSheet.ex:
                 if exo.metadata["name"] == name:
                     self.currentExo = exo
-        
+    
+    # Options of EditEx
+    
     def addvisibleex(self):
         self.currentExo.printFieldNotVisible()
 

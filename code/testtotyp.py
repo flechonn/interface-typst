@@ -1,17 +1,13 @@
 import exercise as e
-# import sheet as s
+import sheet as s
 from sheet import *
 
 
 
 def main():
-    exo:Exercise=loadExerciseTypst("BD/TYPST/exo1.typ")
-
-    feuille: Sheet = Sheet("Ma Feuille d'exercices", author="Moi-même", ex=[exo], output="ma_feuille.typ")
     
-    # feuille.add("BD/TYPST/exo1.typ")
-    exo1:Exercise=loadExerciseTypst("BD/TYPST/exo1.typ")
-    exo2:Exercise=loadExerciseTypst("BD/TYPST/exo2.typ")
+    exo1 = e.loadExerciseTypst("BD/TYPST/exo1.typ")
+    exo2 = e.loadExerciseTypst("BD/TYPST/exo2.typ")
     
     exo2.addVisible("solution")
     
@@ -23,12 +19,13 @@ def main():
                 " Les exercices et le problème peuvent être traités indépendamment."
                 " Les durées sont indicatives, penser à se relire.")
 
-    feuille: Sheet = Sheet("Ma Feuille d'exercices", logo=logo_path, author="Moi-même", date="25 Mars 2024", modality=modalities, duration="3 heures", ex=[exo2, exo1], output="ma_feuille.typ")
+    feuille = s.Sheet("Ma Feuille d'exercices", logo=logo_path, author="Moi-même", date="25 Mars 2024", modality=modalities, duration="3 heures", ex=[exo2, exo1], output="ma_feuille.typ")
 
 
-    # Afficher les exercices de la feuille
+    # Dipslay the exercises of the file
     feuille.displayExercisesNames()
     
+    # create the file with .typ extension
     feuille.toTyp()
 
 main()

@@ -32,6 +32,7 @@ class Sheet:
     def add(self, path):
         exo = loadExercise(path)
         name = exo.metadata["name"]
+        
         for exercise in self.ex :
             if exercise.metadata["name"] == name:
                 print("Exercise already in the sheet")
@@ -93,11 +94,11 @@ class Sheet:
             #heading - Author, date, duration
             f.write("#show: header \n")
             if self.heading:
-                formatted_headings = []  # Liste pour stocker les en-têtes formatés
+                formatted_headings = []
                 for head, value in self.heading.items():
                     if value:
                         formatted_headings.append(f"{head} : {value}")
-                formatted_line = " - ".join(formatted_headings)  # Concaténation avec des tirets
+                formatted_line = " - ".join(formatted_headings)
                 f.write(formatted_line + " \ \n")
                         
             #modality

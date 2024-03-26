@@ -9,18 +9,17 @@ class Exercise:
         if (meta != None):
             self.metadata = meta
         else:
-            self.metadata = {"title" : title,
+            self.metadata = {"title" : title,  # Title of the exercise
                             "duration" : duration,
                             "difficulty" : difficulty,
-                            "solution" : solution, # booléen indiquant s'il y a une solution à la fin du fichier .typ
-                            "figures" : figures,
+                            "solution" : solution,  # Boolean indicating if there is a solution to the end of the exercise
                             "points" : points,
-                            "bonus" : bonus, # booléen indiquant si l'exercice est facultatif ou non
+                            "bonus" : bonus,  # Boolean indicating if the exercise is bonus
                             "author" : author,
                             "references" : references,
                             "language" : language,
                             "material" : material,
-                            "name" : name
+                            "name" : name  # Output name of the exercise (without extension)
             }
 
 
@@ -99,11 +98,17 @@ def initMeta():
 
 def loadExercise(path):
     ext = path.split(".")[-1]
-
-    if(ext == "typ"):
+    
+    if ext == "typ":
+        path = "../BD/TYPST/" + path
         return loadExerciseTypst(path)
-    else:
+    elif ext == "tex":
+        path = "../BD/LATEX/" + path
         return loadExerciseLatex(path)
+    else:
+        print("format not supported try with .typ or .tex")
+        raise ValueError("format not supported try with .typ or .tex")
+
 
 def loadExerciseLatex(path):
     try:
@@ -113,15 +118,14 @@ def loadExerciseLatex(path):
         print(f"The file '{path}' could not be found.")
         raise FileNotFoundError(f"The file could not be found.")
     
-    meta_match = re.findall(r'\\setMeta\{(\w+)\}\{(.+?)\}', content, re.DOTALL)
+    meta_match = re.findall(r'\\setMeta\{([^}]+)\}\{([^}]+)\}', content)
     exercise_match = re.search(r'\\section\{Exercice\}(.*?)\\section\{Solution\}', content, re.DOTALL)
     solution_match = re.search(r'\\section\{Solution\}(.*?)\Z', content, re.DOTALL)
 
     solution = None
 
     if meta_match:
-        metadata = initMeta()
-        for key, value in meta_match: metadata[key] = value
+        metadata = dict(meta_match)
     
     if exercise_match:
         content = exercise_match.group(1).strip()
@@ -138,19 +142,6 @@ def loadExerciseLatex(path):
     ex = Exercise(meta=metadata, content=content, solution_content=solution)
 
     return ex
-
-def loadExercise(path):
-    ext = path.split(".")[-1]
-
-    if(ext == "typ"):
-        return loadExerciseTypst(path)
-    elif (ext== "tex"):
-        return loadExerciseLatex(path)
-    else :
-        print("format not supported try with .typ or .tex")
-        raise ValueError("format not supported try with .typ or .tex")
-
-
 
 def loadExerciseTypst(path):
     try:
@@ -179,8 +170,6 @@ def loadExerciseTypst(path):
     if solution_match:
         solution = solution_match.group(1).strip()
 
-    
-    
     # Object exercise creation
 
     for key in metadata.keys():
