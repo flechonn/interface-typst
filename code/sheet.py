@@ -45,11 +45,15 @@ class Sheet:
 
     # Deleting an exercise existing in the actual exercise sheet
     def delete(self, name):
+        if(not self.ex):
+            print("there is no file in the sheet")
+            raise ValueError("there is no file in the sheet")
         for exo in self.ex:
             if exo.metadata["name"] == name:
                 self.ex.remove(exo)
-                return    
-        print("Error name unknow")
+                return
+        print("The file name is not in the sheet.")
+        raise FileNotFoundError("The file name is not in the sheet.")        
         
 
     # Functions editing the heading format

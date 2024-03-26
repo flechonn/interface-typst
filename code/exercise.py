@@ -154,7 +154,6 @@ def loadExerciseTypst(path):
     
     if "= Exercise" not in content:
         print("The file does not contain the '= Exercise' tag.")
-        
         raise ValueError("The file does not contain the '= Exercise' tag.")
 
     meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
@@ -180,9 +179,9 @@ def loadExerciseTypst(path):
         if metadata[key] ==  "":
             metadata[key] = None
 
-    if(metadata['title']is None):
-        print("attribute missing")
-        raise ValueError("The file does not contain the a 'title' tag.")
+    if(not metadata.get('name') or not metadata['name']):
+        print("'name' attribute missing")
+        raise ValueError("The file does not contain the a 'name' tag.")
     
     ex = Exercise(meta=metadata, content=content, solution_content=solution)
     
