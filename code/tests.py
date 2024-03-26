@@ -2,6 +2,7 @@ import unittest
 from sheet import *
 import exercise as e
 import bdmanager as bd
+import os
 import colorama
 
 def test_delex():
