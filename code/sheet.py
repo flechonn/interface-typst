@@ -2,6 +2,7 @@
 # It is also responsible for managing the typ output.
 
 from exercise import *
+from colorama import Fore, Style
 
 class Sheet:
     def __init__(self, title, author=None, date=None, modality=None, duration=None, ex=[]):
@@ -14,26 +15,23 @@ class Sheet:
         self.ex: list[Exercise] = ex # List of exercises existing in the sheet
         self.output = title + ".typ" # Name of the output file
     
-    def displayExercises(self):
-        print("List of exercises:")
-        for i, exercise in enumerate(self.ex, 1):
-            print(f"exercise number {i}")
-            exercise.printExercise()
-    
     def displayExercisesNames(self):
-        print("List of exercises:")
-        if not self.ex:
-            print("No exercises available in :",self.title)
-        else :
-            for i, exercise in enumerate(self.ex, 1):
-                name=exercise.metadata["name"]
-                print("exercise name :",colorama.Fore.GREEN+"",name+colorama.Fore.RESET)
-            
+        print("List of exercises :", end=" ")
+        exercise_strings = [f"{Fore.CYAN}{exercise.metadata['name']}" for i, exercise in enumerate(self.ex, 1)]
+        print(", ".join(exercise_strings))
+        print(Style.RESET_ALL)
         
     # Adding an exercise to the actual exercise sheet
     def add(self, path):
         exo = loadExercise(path)
-        self.ex.append(exo)
+        name = exo.metadata["name"]
+        for exercise in self.ex :
+            if exercise.metadata["name"] == name:
+                print("Exercise already in the sheet")
+                raise ValueError("Exercise already in the sheet")
+        if exo:
+            self.ex.append(exo)
+            print(exo.metadata["name"],"added to sheet")
 
     # Deleting an exercise existing in the actual exercise sheet
     def delete(self, name):
@@ -91,13 +89,3 @@ class Sheet:
             f.write(" \ ")
 
         return
-
-# Using typst tools for the output file 
-def setFormat(self):
-    template = "../BD/TYPST/utilities.typ"
-    importTemplate = "import " + template + ","
-
-    f = open(self.output)
-    f.seek(0)
-    f.write(importTemplate + "\n")
-    return

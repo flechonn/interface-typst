@@ -33,35 +33,35 @@ class Exercise:
         self.content = content
         self.solution = solution_content
     
-    def get_id(self):
-        return self.id
 
     def printFieldNotVisible(self):
-        print("Invisible Field: "+colorama.Fore.LIGHTCYAN_EX +"", end="")
+        print("Invisible Field: " + colorama.Fore.LIGHTCYAN_EX + "", end="")
         not_visible_fields = set(self.metadata.keys()) - set(self.visible.keys())
-        print(", ".join(not_visible_fields)+colorama.Fore.RESET+"")
+        print(", ".join(not_visible_fields) + colorama.Fore.RESET + "")
         
     
     def printFieldVisible(self):
-        print("Visible Field: "+colorama.Fore.LIGHTCYAN_EX +"", end="")
-        print(", ".join(self.visible.keys())+colorama.Fore.RESET+"")       
+        print("Visible Field: " + colorama.Fore.LIGHTCYAN_EX + "", end="")
+        print(", ".join(self.visible.keys()) + colorama.Fore.RESET + "")       
  
-    
-    def printExercise(self):
-        print(self.metadata)
-        print(self.content)
     
     # Add the field (string) to the dictionary of visible fields
     def addVisible(self, field):
+
         if field in self.visible.keys():
-            print(colorama.Fore.BLUE+"Error: field is already visible.")
+            print(colorama.Fore.BLUE + "Field is already visible.")
+
             self.printFieldNotVisible()
+            raise ValueError("Error: Field is already visible")
+        
         elif field in self.metadata.keys():
             self.visible[field] = self.metadata[field]
-            print("field : ",field," is now visible")
+            print("Field ", field, " is now visible")
+
         else:
             print("\033[91mError: Invalid field.\033[0m Please enter one of the field:")
             self.printFieldNotVisible()
+            raise ValueError("Error: Invalid field")
             
 
         
@@ -69,13 +69,16 @@ class Exercise:
     def removeVisible(self, field):
         if field in self.visible.keys():
             self.visible.pop(field)
-            print("Field:", field, "is now invisible dictionary.")
+            print("Field", field, "is now invisible dictionary.")
+
         elif field in self.metadata.keys():
-            print("Field:", field, "is already invisible dictionary. Please enter one of the visible fields:")
+            print("Field", field, "is already invisible dictionary. Please enter one of the visible fields : ")
             self.printFieldVisible()
+            raise ValueError("Error: Field already invisible")
         else:
             print("\033[91mError: Invalid field \033[0m Please enter one of the visible fields:")
             self.printFieldVisible()
+            raise ValueError("Error: Invalid field")
 
         
 
@@ -94,13 +97,21 @@ def initMeta():
             "name" : None
             }
 
+def loadExercise(path):
+    ext = path.split(".")[-1]
+
+    if(ext == "typ"):
+        return loadExerciseTypst(path)
+    else:
+        return loadExerciseLatex(path)
+
 def loadExerciseLatex(path):
     try:
         with open(path, "r") as f:
             content = f.read()
     except FileNotFoundError:
-        print(f"Le fichier '{path}' est introuvable.")
-        raise Exception("Error")
+        print(f"The file '{path}' not found")
+        raise Exception("Error : File not found")
     
     meta_match = re.findall(r'\\setMeta\{(\w+)\}\{(.+?)\}', content, re.DOTALL)
     exercise_match = re.search(r'\\section\{Exercice\}(.*?)\\section\{Solution\}', content, re.DOTALL)
@@ -127,15 +138,6 @@ def loadExerciseLatex(path):
     ex = Exercise(meta=metadata, content=content, solution_content=solution)
 
     return ex
-
-def loadExercise(path):
-    ext = path.split(".")[-1]
-
-    if(ext == "typ"):
-        return loadExerciseTypst(path)
-    else:
-        return loadExerciseLatex(path)
-
 
 def loadExerciseTypst(path):
     try:
