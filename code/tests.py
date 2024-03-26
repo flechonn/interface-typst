@@ -5,7 +5,7 @@ import colorama
 
 def test_delex():
     feuille=None
-    feuille: Sheet = createExerciseSheet("Ma Feuille d'exercices", author="Moi-même", output="ma_feuille.typ")
+    feuille: Sheet = Sheet("Ma Feuille d'exercices", author="Moi-même", output="ma_feuille.typ")
     
     assert feuille.ex == []
     
@@ -37,7 +37,7 @@ def test_delex():
     assert feuille.ex== []
 
 def test_addex():
-    feuille: Sheet = createExerciseSheet("Ma Feuille d'exercices", author="Moi-même", output="ma_feuille.typ")
+    feuille: Sheet = Sheet("Ma Feuille d'exercices", author="Moi-même", output="ma_feuille.typ")
     assert (feuille.ex == [])
     
     feuille.add("BD/TYPST/exo1.typ") 
@@ -69,11 +69,12 @@ def test_addex():
     
     with unittest.TestCase.assertRaises(unittest.TestCase(), ValueError) as context:
         feuille.add("BD/TYPST/exo1.typ") #cannot have 2 exo with the same name
-    assert str(context.exception) == "exercise already in the sheet"
+    assert str(context.exception) == "Exercise already in the sheet"
     
     feuille.add("BD/TYPST/exo2.typ")
     feuille.add("BD/TYPST/exo3.typ")
     assert len(feuille.ex) == 3
+    
       
 
 def testLoadingExercisesLatex():

@@ -23,7 +23,7 @@ def create_input(prompt):
 
 
 def test_delex():
-    feuille: Sheet = createExerciseSheet("Ma Feuille d'exercices", author="Moi-même", output="ma_feuille.typ")
+    feuille: Sheet = Sheet("Ma Feuille d'exercices", author="Moi-même", output="ma_feuille.typ")
     
     assert feuille.ex == []
     

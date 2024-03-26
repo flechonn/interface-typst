@@ -25,45 +25,43 @@ class Exercise:
 
 
         # Dictionary of all visible fields on the final output
-        self.visible = dict(self.metadata)
-        self.visible.pop("solution")
-        self.visible.pop("author")
-        self.visible.pop("references")
-        self.visible.pop("language")
-        self.visible.pop("material")
+        self.visible = {"title" : title,
+                        "duration" : duration,
+                        "points" : points
+        }
 
         self.content = content
         self.solution = solution_content
     
-    def get_id(self):
-        return self.id
 
     def printFieldNotVisible(self):
-        print("Invisible Field: "+colorama.Fore.LIGHTCYAN_EX +"", end="")
+        print("Invisible Field: " + colorama.Fore.LIGHTCYAN_EX + "", end="")
         not_visible_fields = set(self.metadata.keys()) - set(self.visible.keys())
-        print(", ".join(not_visible_fields)+colorama.Fore.RESET+"")
+        print(", ".join(not_visible_fields) + colorama.Fore.RESET + "")
         
     
     def printFieldVisible(self):
-        print("Visible Field: "+colorama.Fore.LIGHTCYAN_EX +"", end="")
-        print(", ".join(self.visible.keys())+colorama.Fore.RESET+"")       
+        print("Visible Field: " + colorama.Fore.LIGHTCYAN_EX + "", end="")
+        print(", ".join(self.visible.keys()) + colorama.Fore.RESET + "")       
  
-    
-    def printExercise(self):
-        print(self.metadata)
-        print(self.content)
     
     # Add the field (string) to the dictionary of visible fields
     def addVisible(self, field):
+
         if field in self.visible.keys():
-            print(colorama.Fore.BLUE+"Error: field is already visible.")
+            print(colorama.Fore.BLUE + "Field is already visible.")
+
             self.printFieldNotVisible()
+            raise ValueError("Error: Field is already visible")
+        
         elif field in self.metadata.keys():
             self.visible[field] = self.metadata[field]
-            print("field : ",field," is now visible")
+            print("Field ", field, " is now visible")
+
         else:
             print("\033[91mError: Invalid field.\033[0m Please enter one of the field:")
             self.printFieldNotVisible()
+            raise ValueError("Error: Invalid field")
             
 
         
@@ -71,16 +69,18 @@ class Exercise:
     def removeVisible(self, field):
         if field in self.visible.keys():
             self.visible.pop(field)
-            print("Field:", field, "is now invisible dictionary.")
+            print("Field", field, "is now invisible dictionary.")
+
         elif field in self.metadata.keys():
-            print("Field:", field, "is already invisible dictionary. Please enter one of the visible fields:")
+            print("Field", field, "is already invisible dictionary. Please enter one of the visible fields : ")
             self.printFieldVisible()
+            raise ValueError("Error: Field already invisible")
         else:
             print("\033[91mError: Invalid field \033[0m Please enter one of the visible fields:")
             self.printFieldVisible()
+            raise ValueError("Error: Invalid field")
 
         
-
 
 def initMeta():
     return {"title" : None,
@@ -96,6 +96,14 @@ def initMeta():
             "material" : None,
             "name" : None
             }
+
+def loadExercise(path):
+    ext = path.split(".")[-1]
+
+    if(ext == "typ"):
+        return loadExerciseTypst(path)
+    else:
+        return loadExerciseLatex(path)
 
 def loadExerciseLatex(path):
     try:
@@ -151,10 +159,7 @@ def loadExerciseTypst(path):
     except FileNotFoundError:
         print(f"The file '{path}' could not be found.")
         raise FileNotFoundError(f"The file could not be found.")
-    
-    if "= Exercise" not in content:
-        print("The file does not contain the '= Exercise' tag.")
-        raise ValueError("The file does not contain the '= Exercise' tag.")
+            
 
     meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
     exercise_match = re.search(r'= Exercise(.*?)= Solution', content, re.DOTALL)
@@ -167,6 +172,9 @@ def loadExerciseTypst(path):
 
     if exercise_match:
         content = exercise_match.group(1).strip()
+    else: 
+        print("The file does not contain the '= Exercise' tag.")
+        raise ValueError("The file does not contain the '= Exercise' tag.")
 
     if solution_match:
         solution = solution_match.group(1).strip()

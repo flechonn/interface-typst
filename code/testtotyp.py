@@ -6,7 +6,7 @@ from sheet import *
 def main():
     exo:Exercise=loadExerciseTypst("BD/TYPST/exo1.typ")
 
-    feuille: Sheet = createExerciseSheet("Ma Feuille d'exercices", author="Moi-même", ex=[exo], output="ma_feuille.typ")
+    feuille: Sheet = Sheet("Ma Feuille d'exercices", author="Moi-même", ex=[exo], output="ma_feuille.typ")
     
     # feuille.add("BD/TYPST/exo1.typ")
 
