@@ -157,10 +157,10 @@ class Automaton:
     def ok(self):
         try:
             self.currentSheet.toTyp()
+            print("Sheet creation : ", self.currentSheet.title)
         except BaseException:
             print("Sheet creation couldn't have been done")
         
-        print("Sheet creation : ", self.currentSheet.title)
 
     def title(self):
         title = input()

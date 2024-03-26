@@ -9,18 +9,18 @@ class Exercise:
         if (meta != None):
             self.metadata = meta
         else:
-            self.metadata = {"title" : title,
+            self.metadata = {"title" : title, # Title of the exercise
                             "duration" : duration,
                             "difficulty" : difficulty,
-                            "solution" : solution, # booléen indiquant s'il y a une solution à la fin du fichier .typ
+                            "solution" : solution, # Boolean indicating if there is a solution to the end of the exercise
                             "figures" : figures,
                             "points" : points,
-                            "bonus" : bonus, # booléen indiquant si l'exercice est facultatif ou non
+                            "bonus" : bonus, # Boolean 
                             "author" : author,
                             "references" : references,
                             "language" : language,
                             "material" : material,
-                            "name" : name
+                            "name" : name # Output name of the exercise (without extension)
             }
 
 
@@ -163,7 +163,7 @@ def loadExerciseTypst(path):
 
     meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
     exercise_match = re.search(r'= Exercise(.*?)= Solution', content, re.DOTALL)
-    solution_match = re.search(r'= Solution\n(.*?)', content, re.DOTALL)
+    solution_match = re.search(r'= Solution\n(.*?)$', content, re.DOTALL)
 
     solution = None
 
@@ -179,8 +179,6 @@ def loadExerciseTypst(path):
     if solution_match:
         solution = solution_match.group(1).strip()
 
-    
-    
     # Object exercise creation
 
     for key in metadata.keys():
