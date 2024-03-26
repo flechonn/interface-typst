@@ -132,9 +132,8 @@ class Automaton:
     # Creating a new exercise sheet
     def create(self):
         title = input("Title of the new sheet : ")
-        self.currentSheet = Sheet(title)
-        
-        self.currentSheet.output = input("Output name of the sheet : ")
+        output = input("Output name of the sheet : ")
+        self.currentSheet = Sheet(title, output=output)
 
     # Adding a new exercise in the database
     def add(self):
