@@ -100,10 +100,10 @@ def loadExercise(path):
     ext = path.split(".")[-1]
     
     if ext == "typ":
-        path = "../BD/TYPST/" + path
+        path = "BD/TYPST/" + path
         return loadExerciseTypst(path)
     elif ext == "tex":
-        path = "../BD/LATEX/" + path
+        path = "BD/LATEX/" + path
         return loadExerciseLatex(path)
     else:
         print("format not supported try with .typ or .tex")

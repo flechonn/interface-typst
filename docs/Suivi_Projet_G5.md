@@ -87,6 +87,6 @@ Finalisation du diagramme de Gantt
 * Création de la documentation de l'automate
 * Implémentation finie des tests addex/delex
 * Gestion des exceptions dans l'UI, et dans les fonctions qu'il appelle
-* Nettoyage de l'implementation de l'autoamte
+* Nettoyage de l'implementation de l'automate
 * Implémentation finie de la fonction toTyp en utlisant les fonctionnalités de Typst
 * Debug de la fonction LoadExerciseLatex (ne passe pas les tests)
