@@ -33,8 +33,14 @@ class Sheet:
     # Adding an exercise to the actual exercise sheet
     def add(self, path):
         exo=loadExercise(path)
-        self.ex.append(exo)
-        print(exo.metadata["name"],"added to sheet")
+        name=exo.metadata["name"]
+        for exercise in self.ex :
+            if exercise.metadata["name"]==name:
+                print("exercise already in the sheet")
+                raise ValueError("exercise already in the sheet")
+        if(exo):
+            self.ex.append(exo)
+            print(exo.metadata["name"],"added to sheet")
         
 
     # Deleting an exercise existing in the actual exercise sheet

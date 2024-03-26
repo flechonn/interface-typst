@@ -1,5 +1,5 @@
+import unittest
 from unittest.mock import patch
-import pytest
 
 import colorama
 from ui import *
@@ -51,25 +51,25 @@ def test_addex():
     assert(exo.metadata == exo_addex.metadata)
     assert (exo.content == exo_addex.content)
     assert (exo.solution == exo_addex.solution)
-    assert (exo.visible == exo_addex.visible)   
+    assert (exo.visible == exo_addex.visible)
+    
+    with unittest.TestCase.assertRaises(unittest.TestCase(), FileNotFoundError) as context:
+        feuille.add("BD/TYPST/hagrid.typ")  
+    assert str(context.exception) == "The file could not be found."
 
-    with patch('builtins.open', side_effect=FileNotFoundError):
-        # Appel de la fonction avec un chemin de fichier qui n'existe pas
-        with pytest.raises(SystemExit) as pytest_wrapped_e:
-            feuille.add("BD/TYPST/exo1.typ")
-            
-    exo.printExercise()
+    with unittest.TestCase.assertRaises(unittest.TestCase(), ValueError) as context:
+        feuille.add("BD/TYPST/exo1.txt")  # incorrect extension
+    assert str(context.exception) == "format not supported try with .typ or .tex"
+
+    with unittest.TestCase.assertRaises(unittest.TestCase(), ValueError) as context:
+        feuille.add("BD/TYPST/exo2_missing_attributes.typ")
+    assert str(context.exception) == "The file does not contain the '= Exercise' tag."
     
-        
-    feuille.add("BD/TYPST/exo1.txt")  # extension incorrecte
+    with unittest.TestCase.assertRaises(unittest.TestCase(), ValueError) as context:
+        feuille.add("BD/TYPST/exo1.typ") #pas censé fonctionné
+    assert str(context.exception) == "exercise already in the sheet"
     
-    # Tentative d'ajout d'un exercice avec des attributs manquants
-    feuille.add("BD/TYPST/exo2_missing_attributes.typ")  # attributs manquants
     
-    # Tentative d'ajout d'un exercice avec un contenu invalide
-    feuille.add("BD/TYPST/exo3_invalid_content.typ")  # contenu invalide
-    
-    feuille.add("BD/TYPST/exo1.typ") #pas censé fonctionné
     feuille.displayExercisesNames()    
     
     

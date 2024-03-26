@@ -102,8 +102,8 @@ def loadExerciseLatex(path):
         with open(path, "r") as f:
             content = f.read()
     except FileNotFoundError:
-        print(f"Le fichier '{path}' est introuvable.")
-        exit()
+        print(f"The file '{path}' could not be found.")
+        raise FileNotFoundError(f"The file could not be found.")
     
     meta_match = re.findall(r'\\setMeta\{(\w+)\}\{(.+?)\}', content, re.DOTALL)
     exercise_match = re.search(r'\\section\{Exercice\}(.*?)\\section\{Solution\}', content, re.DOTALL)
@@ -136,8 +136,12 @@ def loadExercise(path):
 
     if(ext == "typ"):
         return loadExerciseTypst(path)
-    else:
+    elif (ext== "tex"):
         return loadExerciseLatex(path)
+    else :
+        print("format not supported try with .typ or .tex")
+        raise ValueError("format not supported try with .typ or .tex")
+
 
 
 def loadExerciseTypst(path):
@@ -145,8 +149,13 @@ def loadExerciseTypst(path):
         with open(path, "r") as f:
             content = f.read()
     except FileNotFoundError:
-        print(f"Le fichier '{path}' est introuvable.")
-        exit()
+        print(f"The file '{path}' could not be found.")
+        raise FileNotFoundError(f"The file could not be found.")
+    
+    if "= Exercise" not in content:
+        print("The file does not contain the '= Exercise' tag.")
+        
+        raise ValueError("The file does not contain the '= Exercise' tag.")
 
     meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
     exercise_match = re.search(r'= Exercise(.*?)= Solution', content, re.DOTALL)
@@ -163,11 +172,19 @@ def loadExerciseTypst(path):
     if solution_match:
         solution = solution_match.group(1).strip()
 
+    
+    
     # Object exercise creation
 
     for key in metadata.keys():
         if metadata[key] ==  "":
             metadata[key] = None
 
+    if(metadata['title']is None):
+        print("attribute missing")
+        raise ValueError("The file does not contain the a 'title' tag.")
+    
     ex = Exercise(meta=metadata, content=content, solution_content=solution)
+    
+    
     return ex
