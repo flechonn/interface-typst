@@ -76,7 +76,7 @@ class Sheet:
     def toTyp(self):
         
         with open(self.output, 'w') as f:
-            template = "BD/TYPST/utilities.typ"
+            template = "../BD/TYPST/utilities.typ"
             f.write(f'#import "{template}" :* \n')
             
             ## SHEET HEADER ##

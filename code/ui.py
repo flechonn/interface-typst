@@ -132,9 +132,8 @@ class Automaton:
     # Creating a new exercise sheet
     def create(self):
         title = input("Title of the new sheet : ")
-        self.currentSheet = Sheet(title)
         output = input("Output name of the sheet : ")
-        self.output = output
+        self.currentSheet = Sheet(title,output=output)
 
     # Adding a new exercise in the database
     def add(self):
@@ -159,7 +158,7 @@ class Automaton:
     def ok(self):
         try:
             self.currentSheet.toTyp()
-            subprocess.check_output("typst compile "+self.title, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
+            # subprocess.check_output("typst compile "+self.title, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
 
         except BaseException:
             print("Sheet creation couldn't have been done")
