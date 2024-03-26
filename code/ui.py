@@ -6,6 +6,7 @@ from sheet import *
 import bdmanager
 from exercise import *
 import subprocess
+
 # Definition of the automaton managing the interactions
 
 class State(Enum):
@@ -19,15 +20,16 @@ class State(Enum):
     TITLE = 6
     AUTHOR = 7
     DATE = 8
-    ADDEX = 9
-    DELEX = 10
-    QUIT = 11
+    LOGO = 9
+    ADDEX = 10
+    DELEX = 11
+    QUIT = 12
     
-    EDITEX=12
-    ADDVISIBLEEX=13
-    DELVISIBLEEX=14
+    EDITEX = 13
+    ADDVISIBLEEX = 14
+    DELVISIBLEEX = 15
 
-    OUT = 15
+    OUT = 16
 
 class Automaton:
 
@@ -56,6 +58,7 @@ class Automaton:
             State.TITLE: State.OPTIONS,
             State.AUTHOR: State.OPTIONS,
             State.DATE: State.OPTIONS,
+            State.LOGO: State.OPTIONS,
             State.DELEX: State.OPTIONS,
             State.ADDEX: State.OPTIONS,
             State.QUIT: State.IDLE,
@@ -77,6 +80,7 @@ class Automaton:
             State.TITLE: "title",
             State.AUTHOR: "author",
             State.DATE: "date",
+            State.LOGO: "logo",
             State.ADDEX: "addex",
             State.DELEX: "delex",
             State.QUIT: "quit",
@@ -86,8 +90,6 @@ class Automaton:
             State.DELVISIBLEEX:"delvisibleex"
             
         }
-
-        self.error = False # This flag allows the automata to manage errors
 
     ## FUNCTIONS ENABLING THE PROPER FreturnUNCTIONING OF THE AUTOMATON.
 
@@ -133,7 +135,7 @@ class Automaton:
     def create(self):
         title = input("Title of the new sheet : ")
         output = input("Output name of the sheet : ")
-        self.currentSheet = Sheet(title,output=output)
+        self.currentSheet = Sheet(title, output=output)
 
     # Adding a new exercise in the database
     def add(self):
@@ -158,15 +160,15 @@ class Automaton:
     def ok(self):
         try:
             self.currentSheet.toTyp()
-            subprocess.check_output("typst compile "+self.currentSheet.title, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
+            print("Sheet title: ", self.currentSheet.output)
+            subprocess.check_output("typst compile "+self.currentSheet.output, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
 
         except BaseException:
             print("Sheet creation couldn't have been done")
         
-        print("Sheet creation : ", self.currentSheet.title)
 
     def title(self):
-        title = input()
+        title = input("Title to add : ")
         try:
             self.currentSheet.editTitle(title)
         except BaseException:
@@ -174,19 +176,25 @@ class Automaton:
 
 
     def author(self):
-        author = input()
+        author = input("Author to add : ")
         try:
             self.currentSheet.editAuthor(author)
         except BaseException:
             print("Author modification couldn't have been done")
 
     def date(self):
-        date = input()
+        date = input("Date to add : ")
         try:
             self.currentSheet.editDate(date)
         except BaseException:
             print("Date modification couldn't have been done")
 
+    def logo(self):
+        logo = input("Logo to add : ")
+        try:
+            self.currentSheet.editLogo(logo)
+        except BaseException:
+            print("Logo modification couldn't have been done")
 
     def addex(self):
         ex = input("File to add : ")
@@ -270,7 +278,6 @@ class Automaton:
             self.call_function()
 
             
-
 
 def main():
     aut = Automaton()

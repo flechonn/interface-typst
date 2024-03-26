@@ -4,7 +4,7 @@ import bdmanager as bd
 from sheet import *
 
 def create(ex, output):
-    sheet = Sheet(output)
+    sheet = Sheet("Ma fiche", output=output)
     for e in ex:
         sheet.add(e)
 
@@ -26,6 +26,7 @@ def manualMode(args):
         case "-create":
             ex = args[2: len(args)-1]
             output = args[-1]
+            print(output)
             create(ex, output)
             print("The sheet " + output + " has been successfully created")
 

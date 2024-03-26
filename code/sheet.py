@@ -5,7 +5,7 @@ from exercise import *
 from colorama import Fore, Style
 
 class Sheet:
-    def __init__(self, title, logo=None, author=None, date=None, modality=None, duration=None, ex=[], output=None):
+    def __init__(self, title, logo="BD/LOGO/UFR_IM2AG_2020.jpg", author=None, date=None, modality=None, duration=None, ex=[], output=None):
         self.title = title
         self.logo = logo
         self.heading = {"author" : author,
@@ -15,12 +15,6 @@ class Sheet:
         self.modality = modality
         self.ex: list[Exercise] = ex # List of exercise paths existing in the sheet
         self.output = output # Name of the output file
-    
-    def displayExercises(self):
-        print("List of exercises:")
-        for i, exercise in enumerate(self.ex, 1):
-            print(f"exercise number {i}")
-            exercise.printExercise()
     
     def displayExercisesNames(self):
         print("List of exercises :", end=" ")
@@ -32,7 +26,7 @@ class Sheet:
     def add(self, path):
         exo = loadExercise(path)
         name = exo.metadata["name"]
-        
+
         for exercise in self.ex :
             if exercise.metadata["name"] == name:
                 print("Exercise already in the sheet")
@@ -54,7 +48,7 @@ class Sheet:
         raise FileNotFoundError("The file name is not in the sheet.")        
         
 
-    # Functions editing the heading format
+    # Functions editing the metadatas of the sheet
     def editTitle(self, title):
         self.title = title
     
@@ -69,6 +63,9 @@ class Sheet:
     
     def editDuration(self, duration):
         self.heading["duration"] = duration
+    
+    def editLogo(self, logo):
+        self.logo = logo
 
 
 
@@ -76,7 +73,7 @@ class Sheet:
     def toTyp(self):
         
         with open(self.output, 'w') as f:
-            template = "../BD/TYPST/utilities.typ"
+            template = "BD/TYPST/utilities.typ"
             f.write(f'#import "{template}" :* \n')
             
             ## SHEET HEADER ##
