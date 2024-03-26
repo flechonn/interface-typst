@@ -17,7 +17,7 @@ def test_delex():
     assert str(context.exception) == "there is no file in the sheet"
 
     
-    feuille.add("BD/TYPST/exo1.typ")
+    feuille.add("exo1.typ")
     feuille.displayExercisesNames() 
     
     with unittest.TestCase.assertRaises(unittest.TestCase(), FileNotFoundError) as context:
@@ -27,12 +27,12 @@ def test_delex():
     feuille.delete("exo1")
     assert (feuille.ex== [])
     
-    feuille.add("BD/TYPST/exo1.typ")
-    feuille.add("BD/TYPST/exo2.typ")
+    feuille.add("exo1.typ")
+    feuille.add("exo2.typ")
     feuille.delete("exo1")
     assert len(feuille.ex) == 1
     assert feuille.ex[0].metadata['name']=="exo2"
-    exo=loadExercise("BD/TYPST/exo2.typ")
+    exo=loadExercise("exo2.typ")
     assert feuille.ex[0].content == exo.content
     assert feuille.ex[0].metadata['name']== exo.metadata['name']
     
@@ -43,9 +43,9 @@ def test_addex():
     feuille: Sheet = Sheet("Ma Feuille d'exercices", author="Moi-même", output="ma_feuille.typ")
     assert (feuille.ex == [])
     
-    feuille.add("BD/TYPST/exo1.typ") 
+    feuille.add("exo1.typ") 
     
-    exo:Exercise=loadExerciseTypst("BD/TYPST/exo1.typ")
+    exo:Exercise=loadExercise("exo1.typ")
     exo_addex:Exercise=feuille.ex[0]
     
     #loading exerciceworking
@@ -55,27 +55,27 @@ def test_addex():
     assert (exo.visible == exo_addex.visible)
     
     with unittest.TestCase.assertRaises(unittest.TestCase(), FileNotFoundError) as context:
-        feuille.add("BD/TYPST/hagrid.typ")  
+        feuille.add("hagrid.typ")  
     assert str(context.exception) == "The file could not be found."
 
     with unittest.TestCase.assertRaises(unittest.TestCase(), ValueError) as context:
-        feuille.add("BD/TYPST/exo1.txt")  # incorrect extension
+        feuille.add("exo1.txt")  # incorrect extension
     assert str(context.exception) == "format not supported try with .typ or .tex"
 
     with unittest.TestCase.assertRaises(unittest.TestCase(), ValueError) as context:
-        feuille.add("BD/TYPST/exo2_missing_attributes.typ")
+        feuille.add("exo2_missing_attributes.typ")
     assert str(context.exception) == "The file does not contain the '= Exercise' tag."
     
     with unittest.TestCase.assertRaises(unittest.TestCase(), ValueError) as context:
-        feuille.add("BD/TYPST/exo2_missing_name.typ")
+        feuille.add("exo2_missing_name.typ")
     assert str(context.exception) == "The file does not contain the a 'name' tag."
     
     with unittest.TestCase.assertRaises(unittest.TestCase(), ValueError) as context:
-        feuille.add("BD/TYPST/exo1.typ") #cannot have 2 exo with the same name
+        feuille.add("exo1.typ") #cannot have 2 exo with the same name
     assert str(context.exception) == "Exercise already in the sheet"
     
-    feuille.add("BD/TYPST/exo2.typ")
-    feuille.add("BD/TYPST/exo3.typ")
+    feuille.add("exo2.typ")
+    feuille.add("exo3.typ")
     assert len(feuille.ex) == 3
     
       
