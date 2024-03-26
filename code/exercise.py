@@ -31,6 +31,7 @@ class Exercise:
         self.visible.pop("references")
         self.visible.pop("language")
         self.visible.pop("material")
+        self.visible.pop("name")
 
         self.content = content
         self.solution = solution_content
@@ -150,7 +151,7 @@ def loadExerciseTypst(path):
 
     meta_match = re.search(r'#show terms: meta => {(.*?)}', content, re.DOTALL)
     exercise_match = re.search(r'= Exercise(.*?)= Solution', content, re.DOTALL)
-    solution_match = re.search(r'= Solution\n(.*?)', content, re.DOTALL)
+    solution_match = re.search(r'= Solution\n(.*?)$', content, re.DOTALL)
 
     solution = None
 

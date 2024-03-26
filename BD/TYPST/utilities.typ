@@ -37,12 +37,38 @@
 
 // SHEET CONTENT (EXERCISES) TEMPLATE
 
-#let body(doc) = [
-  #set text(font: "Inria Serif", 11pt)
+#let main_meta(doc) = [
+  #set text(12pt, weight: "bold")
+  #show "title" : [Exercise :]
+  #show "bonus" : [(Bonus)]
+  #show "duration" : []
+  #show "points" : []
   #doc
 ]
 
 #let meta(doc) = [
-  #set text(font: "Inria Serif", 8pt)
+  #set text(font: "Inria Serif", 8pt, weight: "bold")
+  #show "difficulty" : [Difficulty :]
+  #show "author" : [Author :]
+  #show "references" : [References :]
+  #show "language" : [Language :]
+  #show "material" : [Material :]
+  #show "name" : [File name :]
+  #doc
+]
+
+#let exercise(doc) = [
+  #set text(font: "Inria Serif", 11pt, weight: "regular")
+  #doc
+]
+
+#let solution_header(doc) = [
+  #set text(font: "Inria Serif", 12pt, weight: "bold")
+  #show "solution" : [Solution :]
+  #doc
+]
+
+#let solution(doc) = [
+  #set text(font: "Inria Serif", 11pt, weight: "regular")
   #doc
 ]

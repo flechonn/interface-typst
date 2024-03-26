@@ -5,11 +5,11 @@
     let solution = label("1")
     let figures = label("")
     let points = label("10pts")
-    let bonus = label("0")
+    let bonus = label("1")
     let author = label("")
-    let references = label("")
+    let references = label("Link")
     let language = label("english")
-    let material = label("")
+    let material = label("Algo")
     let name = label("exo1")
 }
 

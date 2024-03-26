@@ -70,7 +70,7 @@ class Sheet:
         
         with open(self.output, 'w') as f:
             template = "BD/TYPST/utilities.typ"
-            f.write("#import " + template + ": *" "\n")
+            f.write(f'#import "{template}" :* \n')
             
             ## SHEET HEADER ##
         
@@ -105,19 +105,52 @@ class Sheet:
 
             #exercise
             for exo in self.ex :
-                f.write("#show: meta \n")
                 solution_visible = False
                 
+                #header exercise
+                main_heading = [] # for title, bonus, points and duration
+                other_heading = [] # for other metadata (those less useful)
+                
+                shown_header = ["title", "bonus", "points", "duration"]
+                
+                main_heading.append("#main_meta[")
+                if exo.metadata["title"]:
+                    main_heading.append("title " + exo.metadata["title"] + " ")
+                    
+                if exo.metadata["bonus"]:
+                    if exo.metadata["bonus"] == "1":
+                        main_heading.append("bonus ")
+                        
+                main_heading.append("#h(1fr) ")
+                if exo.metadata["duration"]:
+                    if exo.metadata["points"]:
+                        main_heading.append(f"duration ($tilde.op$ " + exo.metadata["duration"] + ") | ")
+                    else :
+                        main_heading.append("duration " + exo.metadata["duration"])
+                        
+                if exo.metadata["points"]:
+                    main_heading.append("points " + exo.metadata["points"])
+                main_heading.append("] \ \n")
+                
+                f.write(''.join(main_heading) + "\n")
+                
+                f.write("#show: meta \n")
                 for ex_header, header_value in exo.visible.items():
                     if header_value :
-                        f.write(f"{ex_header} : {header_value} \n")
-                        if(ex_header == "solution"):
-                            solution_visible = True
+                        if ex_header not in shown_header :
+                            
+                            
+                            other_heading.append(f"{ex_header} {header_value}\n")
+                            
+                            if(ex_header == "solution"):
+                                solution_visible = True
                 
-                f.write(" \ \n" + exo.content)
+                f.write(' | '.join(other_heading) + "\n")
+                f.write(" \ \ \n" + "#show: exercise \n" + exo.content + "\n")
                 if(solution_visible):
-                    f.write(exo.solution)
-                f.write(" \ ")
+                    f.write("#show: solution_header \n \ \ \n solution \n \ \n")
+                    f.write(f"#show: solution \n {exo.solution}")
+                f.write(" \ \ \n")
 
         return
 
