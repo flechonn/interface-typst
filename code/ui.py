@@ -29,21 +29,20 @@ class State(Enum):
 
     OUT = 15
 
-
 class Automaton:
 
     def __init__(self):
         self.currentSheet:Sheet = None
         self.currentState = State.IDLE
-        self.currentExo:Exercise=None
-        self.TRANSITIONS = {
+        self.currentExo:Exercise = None
+        self.transitions = {
             State.IDLE: {"add": State.ADD, 
                          "delete": State.DEL, 
                          "create": State.CREATE, 
-                         "out":State.OUT},
-            State.ADD: {"done": State.IDLE},
-            State.DEL: {"done": State.IDLE},
-            State.CREATE: {"done": State.OPTIONS},
+                         "out": State.OUT},
+            State.ADD: State.IDLE,
+            State.DEL: State.IDLE,
+            State.CREATE: State.OPTIONS,
             State.OPTIONS: {"ok" : State.OK,
                                 "title": State.TITLE, 
                                 "author": State.AUTHOR, 
@@ -53,19 +52,19 @@ class Automaton:
                                 "editex":State.EDITEX,
                                 "quit": State.QUIT,
                                 },
-            State.OK: {"done" : State.IDLE},
-            State.TITLE: {"done": State.OPTIONS},
-            State.AUTHOR: {"done": State.OPTIONS},
-            State.DATE: {"done": State.OPTIONS},
-            State.DELEX: {"done": State.OPTIONS},
-            State.ADDEX: {"done": State.OPTIONS},
-            State.QUIT:{"done":State.IDLE},
-            State.EDITEX:{"addvisible":State.ADDVISIBLEEX,
-                          "delvisible":State.DELVISIBLEEX,
-                          "quit":State.OPTIONS},
-            State.ADDVISIBLEEX:{"done":State.EDITEX},
-            State.DELVISIBLEEX:{"done":State.EDITEX},
-            State.OUT:{}
+            State.OK: State.IDLE,
+            State.TITLE: State.OPTIONS,
+            State.AUTHOR: State.OPTIONS,
+            State.DATE: State.OPTIONS,
+            State.DELEX: State.OPTIONS,
+            State.ADDEX: State.OPTIONS,
+            State.QUIT: State.IDLE,
+            State.EDITEX: {"addvisible" : State.ADDVISIBLEEX,
+                          "delvisible" : State.DELVISIBLEEX,
+                          "quit" : State.OPTIONS},
+            State.ADDVISIBLEEX: State.EDITEX,
+            State.DELVISIBLEEX: State.EDITEX,
+            State.OUT : {}
         }
         
         self.functions = {
@@ -85,49 +84,51 @@ class Automaton:
             State.EDITEX:"editex",
             State.ADDVISIBLEEX:"addvisibleex",
             State.DELVISIBLEEX:"delvisibleex"
+            
         }
 
+        self.error = False # This flag allows the automata to manage errors
 
-    #retrieves valid events for a given state of the State.:
-    #state is a parameter which corresponds to a state of the State 
+    ## FUNCTIONS ENABLING THE PROPER FreturnUNCTIONING OF THE AUTOMATON.
+
+    # Returns the valid possible events for the current state
     def valid_events(self):
-        return list(self.TRANSITIONS.get(self.currentState, {}).keys())
 
-    # The transition(state, event) function takes two arguments: 
-    # - the current state of the State (state) 
-    # - the event (event) triggered by the user. 
-    # It uses this information to determine the next state of the controller.  
-    def transition(self, event):
-        state_possible = self.TRANSITIONS.get(self.currentState, {})
-        next_state = state_possible.get(event)
+        if isinstance(self.transitions.get(self.currentState, {}), State):
+            return self.currentState
+        else:
+            return list(self.transitions.get(self.currentState, {}).keys())
 
-        if next_state is None:
+    # Determines the next state of the controller based on the current state and the triggered event.
+    def transition(self, event=None):
+
+        state_possible = self.transitions.get(self.currentState, {})
+        next_state = state_possible.get(event) if event else state_possible
+
+        # Invalid event management
+        if next_state == None:
             valid = self.valid_events()
             print("\033[91mError: Invalid event.\033[0m Please enter one of the following events:")
             for option in valid:
                 print(f"- \033[92m{option}\033[0m")
             return self.currentState
-        return next_state
-
-    def doneInNextTransition(self):
-        valid = self.valid_events()
-        if "done" in valid:
-            self.currentState = self.transition("done")
-
-    #call the fonction of the state and try apply "done" if it is possible
-    def call_function(self):
-        function_name = self.functions.get(self.currentState)
-        if function_name:
-            function = getattr(self, function_name, None)
-            if function:
-                function()
-                self.doneInNextTransition()
-            else:
-                print(f"Function '{function_name}' not found.")
         else:
-            print("No function associated with the current state.")
+            return next_state
 
+    # Call the function associated with the current state and executes it if found, otherwise it prints an error message.
+    def call_function(self):
+        try:
+            function_name = self.functions.get(self.currentState)
+            try:
+                function = getattr(self, function_name, None)
+                function()
+            except Exception:
+                    print(f"Function '{function_name}' not found.")
+        except Exception:
+            print("No function associated with the current state.")
     
+    ## FUNCTIONS CALLED FOR EACH TRANSITION IN THE AUTOMATA
+
     # Creating a new exercise sheet
     def create(self):
         title = input("Title of the new sheet : ")
@@ -143,102 +144,123 @@ class Automaton:
         ex_file = input("Exercise file name to delete : ")
         bdmanager.delete(ex_file)
 
-
     def idle(self):
         return
 
+    def out(self):
+        return
+    
     # Options for a created sheet
     def options(self):
-        print("Options menu")
+        return
 
     def ok(self):
-        print("création de la fiche : ",self.currentSheet.title,"et de son fichier respectif")
-        self.currentSheet.toTyp()
+        try:
+            self.currentSheet.toTyp()
+        except BaseException:
+            print("Sheet creation couldn't have been done")
+        
+        print("Sheet creation : ", self.currentSheet.title)
 
     def title(self):
-        print("Title menu")
         title = input()
-        self.currentSheet.editTitle(title)
+        try:
+            self.currentSheet.editTitle(title)
+        except BaseException:
+            print("Title modification couldn't have been done")
+
 
     def author(self):
-        print("Author menu")
         author = input()
-        self.currentSheet.editAuthor(author)
+        try:
+            self.currentSheet.editAuthor(author)
+        except BaseException:
+            print("Author modification couldn't have been done")
 
     def date(self):
-        print("Date menu")
         date = input()
-        self.currentSheet.editDate(date)
+        try:
+            self.currentSheet.editDate(date)
+        except BaseException:
+            print("Date modification couldn't have been done")
 
 
     def addex(self):
-        ex = input("try with ../BD/TYPST/exo1.typ :")
-        self.currentSheet.add(ex)
+        ex = input("File to add : ")
+        try:
+            self.currentSheet.add(ex)
+        except BaseException:
+            print("Addex couldn't have been done")
 
     def delex(self):
-        print("Deleting exercise menu")
-        ex = input("try with ../BD/TYPST/exo1.typ :")
-        self.currentSheet.delete(ex)
-
-    def quit(self):
-        print("Quit the current sheet")
-        self.currentSheet = None
-
-    def out(self):
-        return
+        ex = input("File to delete : ")
+        try:
+            self.currentSheet.delete(ex)
+        except BaseException:
+            print("Delex couldn't have been done")
 
     def editex(self):
-        self.currentSheet.displayExercisesNames()
 
-        if(self.currentSheet.ex==None):
-            print("There are no exercises to edit.")
-            return
+        if self.currentSheet.ex == []:
+            print("There are no exercises to edit, please add an exercise before")
+            self.currentState = State.OPTIONS
+        else:
+            self.currentSheet.displayExercisesNames()
         
-        name=input("name of the exercise you want to edit :")
-        for exo in self.currentSheet.ex:
-            if exo.metadata["name"] == name:
-                self.currentExo=exo
-                self.currentSheet.displayExercisesNames()
-
-                return
-            
-        self.currentExo=None
-        print("Exercices not fond")
-        return 
-    
+            name = input("Name of the exercise you want to edit : ")
+            for exo in self.currentSheet.ex:
+                if exo.metadata["name"] == name:
+                    self.currentExo = exo
+        
     def addvisibleex(self):
         self.currentExo.printFieldNotVisible()
 
-        if(self.currentExo==None):
-            print("Exercise Name invalid please enter a valid name")
-            self.currentState=State.EDITEX
-            return 
+        if self.currentExo == None:
+            print("Name exercise invalid, please enter a valid name")
+            self.currentState = State.EDITEX
+
         field = input("Field name to add : ")
-        self.currentExo.addVisible(field)
-        return
-    
+
+        try:
+            self.currentExo.addVisible(field)
+        except BaseException:
+            print("AddVisibleEx couldn't have been done")
+
     def delvisibleex(self):
         self.currentExo.printFieldVisible()
-        if(self.currentExo==None):
-            print("Exercise Name invalid please enter a valid name")
-            self.currentState=State.EDITEX
-            return 
+
+        if self.currentExo == None:
+            print("Name exercise invalid, please enter a valid name")
+            self.currentState = State.EDITEX
+            
         field = input("Field name to del : ")
-        self.currentExo.removeVisible(field)
-        return
+
+        try:
+            self.currentExo.removeVisible(field)
+        except BaseException:
+            print("DelVisibleEx couldn't have been done")
+    
+    def quit(self):
+        print("Quit the current sheet")
+        self.currentSheet = None
 
     def main(self):
         
         while self.currentState != State.OUT:
             # Displaying valid events for the current state
             valid = self.valid_events()
-            colored_events = [f"\033[92m{event}\033[0m" for event in valid]
-            print(f"\nPossible events : {', '.join(colored_events)}")
-            # Transition from the current state to the next state, in function of the action entered
-            action = input("Enter an action : ").strip().lower()
+
+            if not isinstance(valid, State):  
+                colored_events = [f"\033[92m{event}\033[0m" for event in valid]
+                print(f"\nPossible events : {', '.join(colored_events)}")
+
+                # Transition from the current state to the next state, in function of the action entered
+                action = input("Enter an action : ").strip().lower()
+            else:
+                action = None
+                
             self.currentState = self.transition(action)
-            print("Current state :", self.currentState)
-            
+
             # Calling the function, result of the transition
             self.call_function()
 

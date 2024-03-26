@@ -1,3 +1,4 @@
+import unittest
 from unittest.mock import patch
 
 import colorama
@@ -21,7 +22,37 @@ def create_input(prompt):
         return "titre de feuille"
 
 
+def test_delex():
+    feuille: Sheet = Sheet("Ma Feuille d'exercices", author="Moi-même", output="ma_feuille.typ")
+    
+    assert feuille.ex == []
+    
+    with unittest.TestCase.assertRaises(unittest.TestCase(), ValueError) as context:
+        feuille.delete("hagrid")  
+    assert str(context.exception) == "there is no file in the sheet"
 
+    
+    feuille.add("BD/TYPST/exo1.typ")
+    feuille.displayExercisesNames() 
+    
+    with unittest.TestCase.assertRaises(unittest.TestCase(), FileNotFoundError) as context:
+        feuille.delete("hagrid")  
+    assert str(context.exception) == "The file name is not in the sheet."
+    
+    feuille.delete("exo1")
+    assert (feuille.ex== [])
+    
+    feuille.add("BD/TYPST/exo1.typ")
+    feuille.add("BD/TYPST/exo2.typ")
+    feuille.delete("exo1")
+    assert len(feuille.ex) == 1
+    assert feuille.ex[0].metadata['name']=="exo2"
+    exo=loadExercise("BD/TYPST/exo2.typ")
+    assert feuille.ex[0].content == exo.content
+    assert feuille.ex[0].metadata['name']== exo.metadata['name']
+    
+    feuille.delete("exo2")
+    assert feuille.ex== []
 
 def testdelex(automaton: Automaton):
 
@@ -61,9 +92,8 @@ def testdelex(automaton: Automaton):
     assert "exo2" in [exercise.metadata["name"] for exercise in automaton.currentSheet.ex]    
 
 def testDelExercices():
-    auto = Automaton()
     try:
-        testdelex(auto)
+        test_delex()
         print(colorama.Fore.GREEN + "delingExercises passed : 100%")
     except AssertionError as e:
         print(colorama.Fore.RED + "delingExercises did not pass")

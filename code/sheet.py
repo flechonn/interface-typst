@@ -2,6 +2,7 @@
 # It is also responsible for managing the typ output.
 
 from exercise import *
+from colorama import Fore, Style
 
 class Sheet:
     def __init__(self, title, logo=None, author=None, date=None, modality=None, duration=None, ex=[], output=None):
@@ -13,7 +14,7 @@ class Sheet:
         }
         self.modality = modality
         self.ex: list[Exercise] = ex # List of exercise paths existing in the sheet
-        self.output = title+".typ" # Name of the output file
+        self.output = output # Name of the output file
     
     def displayExercises(self):
         print("List of exercises:")
@@ -22,29 +23,34 @@ class Sheet:
             exercise.printExercise()
     
     def displayExercisesNames(self):
-        print("List of exercises:")
-        if not self.ex:
-            print("No exercises available in :",self.title)
-        else :
-            for i, exercise in enumerate(self.ex, 1):
-                name=exercise.metadata["name"]
-                print("exercise name :",colorama.Fore.GREEN+"",name+colorama.Fore.RESET)
-            
+        print("List of exercises :", end=" ")
+        exercise_strings = [f"{Fore.CYAN}{exercise.metadata['name']}" for i, exercise in enumerate(self.ex, 1)]
+        print(", ".join(exercise_strings))
+        print(Style.RESET_ALL)
         
     # Adding an exercise to the actual exercise sheet
     def add(self, path):
-        exo=loadExercise(path)
-        self.ex.append(exo)
-        print(exo.metadata["name"],"added to sheet")
-        
+        exo = loadExercise(path)
+        name = exo.metadata["name"]
+        for exercise in self.ex :
+            if exercise.metadata["name"] == name:
+                print("Exercise already in the sheet")
+                raise ValueError("Exercise already in the sheet")
+        if exo:
+            self.ex.append(exo)
+            print(exo.metadata["name"],"added to sheet")
 
     # Deleting an exercise existing in the actual exercise sheet
     def delete(self, name):
+        if(not self.ex):
+            print("there is no file in the sheet")
+            raise ValueError("there is no file in the sheet")
         for exo in self.ex:
             if exo.metadata["name"] == name:
                 self.ex.remove(exo)
-                return    
-        print("Error name unknow")
+                return
+        print("The file name is not in the sheet.")
+        raise FileNotFoundError("The file name is not in the sheet.")        
         
 
     # Functions editing the heading format

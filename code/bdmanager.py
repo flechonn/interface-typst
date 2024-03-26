@@ -16,6 +16,7 @@ def add(path):
         BD_path = "BD/LATEX"
 
     shutil.copy(path, BD_path)
+    print(path + " has been successfully added to the database")
 
 
 
@@ -32,9 +33,9 @@ def delete(path):
 
     if os.path.exists(BD_path):
         os.remove(BD_path)
-        print("The file has been successfully deleted.")
+        print(path + " has been successfully deleted")
     else:
-        print("The file does not exist.")
+        print(path + " does not exist")
 
 
 

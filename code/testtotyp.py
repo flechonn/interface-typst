@@ -3,14 +3,13 @@ import exercise as e
 from sheet import *
 
 
-def createExerciseSheet(title, logo=None, author=None, date=None, modality=None, duration=None, ex=[], output=None)-> Sheet:
-    # Create a new Sheet object
-    new_sheet = Sheet(title, logo=logo, author=author, date=date, modality=modality, duration=duration, ex=ex, output=output)
-
-    # Return the created Sheet object
-    return new_sheet
 
 def main():
+    exo:Exercise=loadExerciseTypst("BD/TYPST/exo1.typ")
+
+    feuille: Sheet = Sheet("Ma Feuille d'exercices", author="Moi-même", ex=[exo], output="ma_feuille.typ")
+    
+    # feuille.add("BD/TYPST/exo1.typ")
     exo1:Exercise=loadExerciseTypst("BD/TYPST/exo1.typ")
     exo2:Exercise=loadExerciseTypst("BD/TYPST/exo2.typ")
     
@@ -24,7 +23,7 @@ def main():
                 " Les exercices et le problème peuvent être traités indépendamment."
                 " Les durées sont indicatives, penser à se relire.")
 
-    feuille: Sheet = createExerciseSheet("Ma Feuille d'exercices", logo=logo_path, author="Moi-même", date="25 Mars 2024", modality=modalities, duration="3 heures", ex=[exo2, exo1], output="ma_feuille.typ")
+    feuille: Sheet = Sheet("Ma Feuille d'exercices", logo=logo_path, author="Moi-même", date="25 Mars 2024", modality=modalities, duration="3 heures", ex=[exo2, exo1], output="ma_feuille.typ")
 
 
     # Afficher les exercices de la feuille
