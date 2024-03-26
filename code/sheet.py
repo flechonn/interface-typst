@@ -32,7 +32,7 @@ class Sheet:
     def add(self, path):
         exo = loadExercise(path)
         name = exo.metadata["name"]
-        
+
         for exercise in self.ex :
             if exercise.metadata["name"] == name:
                 print("Exercise already in the sheet")
@@ -76,7 +76,7 @@ class Sheet:
     def toTyp(self):
         
         with open(self.output, 'w') as f:
-            template = "../BD/TYPST/utilities.typ"
+            template = "BD/TYPST/utilities.typ"
             f.write(f'#import "{template}" :* \n')
             
             ## SHEET HEADER ##
