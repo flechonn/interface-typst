@@ -198,6 +198,9 @@ def tests():
         print(colorama.Fore.GREEN + "DeleteBDManager passed : 100%")
     except AssertionError as e:
         print(colorama.Fore.RED + "DeleteBDManager did not pass")
+        
+    if os.path.exists("ma_feuille.typ"):
+        os.remove("ma_feuille.typ")
 
     try:
         testToTyp()
@@ -205,9 +208,6 @@ def tests():
     except AssertionError as e:
         print(colorama.Fore.RED + "Totyp did not pass")
 
-    if os.path.exists("ma_feuille.typ"):
-        os.remove("ma_feuille.typ")
-    
     
 
 if __name__ == "__main__":

@@ -143,11 +143,13 @@ class Sheet:
                     if header_value :
                         if ex_header not in shown_header :
                             
-                            
-                            other_heading.append(f"{ex_header} {header_value}\n")
-                            
                             if(ex_header == "solution"):
                                 solution_visible = True
+                            
+                            else:
+                                other_heading.append(f"{ex_header} {header_value}\n")
+                            
+                            
                 
                 f.write(' | '.join(other_heading) + "\n")
                 f.write(" \ \ \n" + "#show: exercise \n" + exo.content + "\n")
