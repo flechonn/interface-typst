@@ -1,44 +1,39 @@
-[ FRENCH VERSION BELOW ]
+[ ENGLISH VERSION ]
 
 ## Explanation of Automaton Implementation
 
-**Operation:**
+**Functioning :**
 
-    - Adding states and transitions is made easier due to the use of a Python dictionary.
-    - There's a dictionary defining the automaton and its transitions called _transitions_.
-    -  There's a dictionary intended for state functions, with the same name (one state = one function), for example: state: option, then there exists a function option.
-- To add a state and its associated transitions, one needs to add the state and its transitions to the transitions dictionary, create a function with the same name as the state, and add the function to the _functions_ dictionary.
-- The function transition retrieves an action from a list defined in the transitions dictionary, and sends the next state.
--  The function call_function calls the function associated with the state (one state = one function).
-- Errors are raised and managed within the automaton for incorrect user input.
 
-**Advantages:**
+- To add a **state** and its **associated transitions**, the programmer needs to add the state and its transitions to the _transitions_ dictionary, create a function with the same name as the state, and add the function to the _functions_ dictionary.
+- The function **transition** retrieves an action from a list defined in the _transitions_ dictionary, based on the input given by the user, and returns the next state.
+-  The function **call_function** calls the function associated with the state (one state = one function).
+- Errors are raised using _raise Exception_, and then they are handled within the functions of the automaton.
+
+**Advantages :**
 
 The code is **more modular** and **more understandable**:
 
-    The programmer doesn't have to inspect each function to understand which state the automaton is in, but just needs to follow the transitions entered by the user in a single dictionary.
+The programmer doesn't have to inspect each function to understand which state the automaton is in, but just needs to follow the transitions entered by the user in a dictionary.
 
-**Error handling is managed by each state** (one state = one function). If there's an error in user usage not foreseen by the automaton, we can more easily choose the state to which it returns.
+Indeed, by following a more classical approach to implementing the automaton, we would have had to modify the state of the automaton within each function. This would require following the automaton's schema step by step, which can lead to errors on the programmer's part, making it a tedious task.
 
-## Explication implémentation automate
+[ VERSION FRANÇAISE ]
+## Explication de notre implémentation de l'automate
 
-**fonctionnement :**
+**Fonctionnement :**
 
-    - ajout d'état et de transition plus facile dû à l'utilisation de dictionnaire python
-    - il y a un dictionnaire définissant l'automate et ses transitions appelé _transitions_ .
-    - il y a un dictionnaire destiné aux fonctions des états, du même nom (un état = une fonction), exemple :
-    état : option, alors il existe une fonction option
+- Pour ajouter un **état** et les **transitions** qui lui sont liées, il suffit d'ajouter l'état et ses transitions dans le dictionnaire _transitions_ de la classe Automaton, créer la fonction du même nom que l'état, et enfin, ajouter la fonction donc le dictionnaire _fonctions_. 
+- la fonction **transition** récupère une action parmi une liste définie dans le dictionnaire *transitions*, en fonction de l'input donné par l'utilisateur, et renvoie le prochain état.
+- la fonction **call_fonction** appelle la fonction liée à l'état (un état = une fonction).
+- les erreurs sont renvoyées par des *raise Exception*, puis celles-ci sont gérées dans les fonctions de l'automate.
 
-- Pour ajouter un état et les transitions qu'ils lui sont liées, il faut ajouter l'état et ses transitions dans le dictionnaire transitions, créer la fonction du même com que l'état, et ajouter, la fonction donc le dictionnaire _fonctions_  
-- la fonction **transition**, récupère une action parmi une liste définie dans le dictionnaire *transitions*, et envoie le prochain état 
-- la fonctions **call_fonction** apelle la fonction liée à l'état (un état = une fonction)
-- les erreurs sont renvoyées par des *raise* et gérer dans l'automate, pour des mauvaises entré de l'utilisateur. 
+**Avantages :**
 
-**Avantage  :**
+Le code est **plus modulable** et **plus compréhensible** :
 
-le code est **plus modulable** et **plus compréhensible** :
+Le programmeur n'a pas à inspecter chaque fonction pour comprendre dans quel état l'automate se trouve, mais juste à suivre les transitions entrées par l'utilisateur dans un seul dictionnaire.
 
-    Le programmeur n'a pas à inspecter chaque fonction pour comprendre dans quel état l'automate se trouve, mais juste à suivre les transitions entrées par l'utilisateur dans un seul dictionnaire.
+En effet, en suivant une approche plus classique d'implémentation de l'automate, nous aurions dû modifier l'état de l'automate dans chaque fonction. Il faudrait donc suivre pas à pas le schéma de l'automate, ce qui peut engendrer des erreurs de la part du programmeur, c'est une tâche fastidieuse.
 
-**la gestion des erreurs est gérée par chaque état** (un état = une fonction) s'il y a une erreur d'utilisation de l'utilisateur pas prévue par l'automate, on peut plus facilement choisir l'état dans lequel celui-ci revient.
 
