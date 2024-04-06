@@ -160,7 +160,6 @@ class Automaton:
         try:
             self.currentSheet.toTyp()
             print("Sheet title: ", self.currentSheet.output)
-            subprocess.check_output("typst compile "+self.currentSheet.output, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
 
         except BaseException:
             print("Sheet creation couldn't have been done")

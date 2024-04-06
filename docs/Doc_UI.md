@@ -2,10 +2,12 @@
 
 ## INTERACTIVE MODE DOCUMENTATION
 
+> <span style="color:#5D6D7E;"> Please make sure to only write the name of the exercise file (such as exo1.typ) instead of the whole path.
+
 **Launching the creation software**
 
 ```bash
-> python3 main.py
+> python3 code/main.py
 $
 $ Welcome to the worksheet creation software!
 $ What do you want to do ? (-h for help)
@@ -58,10 +60,13 @@ $ - quit : cancel the creation of the base
 
 ## DOCUMENTATION DU MODE INTERACTIF
 
+> <span style="color:#5D6D7E;"> Veuillez vous assurer d'écrire uniquement le nom du fichier d'exercice (tel que exo1.typ) au lieu du chemin complet.
+
+
 **Lancement du logiciel de création**
 
 ```bash
-> python3 main.py
+> python3 code/main.py
 $
 $ Welcome to the worksheet creation software!
 $ What do you want to do ? (-h for help)
